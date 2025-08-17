@@ -1,0 +1,77 @@
+/* ====== HERO ====== */
+.hero {
+    --fade-size: 140px;              /* wysokość wygaszenia od dołu */
+    --page-bg: #0e0f12;              /* <-- dopasuj do koloru tła strony */
+    background:
+        /* warstwa wygaszająca obraz do koloru tła na dole */
+        linear-gradient(
+            to bottom,
+            rgba(0,0,0,0) calc(100% - var(--fade-size)),
+            var(--page-bg) 100%
+        ),
+        /* oryginalny obraz tła */
+        url("/assets/images/hero-bg.jpg") center/cover no-repeat;
+    background-color: var(--page-bg); /* safety – gdyby gradient/maska nie zadziałała */
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    color: #fff;
+    /* ważne: hero NIE ma top-separatora */
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* to samo przyciemnienie, ale z wygaszeniem do zera w strefie fade */
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, .55) 0,
+        rgba(0, 0, 0, .55) calc(100% - var(--fade-size)),
+        rgba(0, 0, 0, 0) 100%
+    );
+    z-index: 1;
+}
+
+.hero .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin-inline: auto;
+}
+
+.hero .hero-content h1 {
+    font-size: clamp(32px, 6vw, 56px);
+    margin: 0;
+}
+
+.hero .hero-content p {
+    font-size: clamp(16px, 2.2vw, 22px);
+    color: #ddd;
+}
+
+.hero .hero-content .btn {
+    display: inline-block;
+    margin-top: 24px;
+    padding: 14px 32px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 999px;
+    font-weight: 700;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: background .2s, transform .06s;
+}
+
+.hero .hero-content .btn:hover {
+    background: #c12c37;
+    transform: translateY(-1px);
+}
+
+.hero .hero-content .btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus);
+}

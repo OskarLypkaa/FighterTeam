@@ -1,27 +1,8 @@
 <!-- NAVBAR -->
-<header class="navbar">
-    <div class="container nav-inner">
-        <a class="logo" href="#hero">KB<strong style="color:var(--accent)">BOX</strong></a>
-        <nav>
-            <a href="#classes">Zajęcia</a>
-            <a href="#schedule">Harmonogram</a>
-            <a href="#pricing">Cennik</a>
-            <a href="#news">Aktualności</a>
-            <a href="#benefits">Benefity</a>
-            <a href="#coach">O trenerze</a>
-            <a href="#contact">Kontakt</a>
-        </nav>
-    </div>
-</header>
+<app-navbar></app-navbar>
 
 <!-- HERO -->
-<section class="hero flow" id="hero">
-    <div class="hero-content fade-in">
-        <h1>Klub Bokserski BOX</h1>
-        <p>Siła, technika i charakter — trenuj z najlepszymi w Krakowie</p>
-        <a href="#classes" class="btn">Zapisz się</a>
-    </div>
-</section>
+<app-hero></app-hero>
 
 <!-- ZAJĘCIA -->
 <section class="section flow alt-bg" id="classes">
@@ -205,13 +186,4 @@
 </section>
 
 <!-- FOOTER -->
-<footer class="footer">
-    <div class="container footer-inner">
-        <div>© KB BOX {{ currentYear }}</div>
-        <div class="footer-links">
-            <a href="#hero">Góra</a>
-            <a href="#classes">Zajęcia</a>
-            <a href="#contact">Kontakt</a>
-        </div>
-    </div>
-</footer>
+<app-footer></app-footer>

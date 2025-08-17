@@ -1,14 +1,28 @@
 import { Component, AfterViewInit, HostListener } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
+// Core imports
+import { NavbarComponent } from './core/navbar/navbar.component';
+import { FooterComponent } from './core/footer/footer.component';
+
+// Feature imports
+import { HeroComponent } from './features/hero/hero.component';
+
+
+
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [DatePipe],
+  imports: [
+    DatePipe,
+    NavbarComponent,
+    FooterComponent,
+    HeroComponent
+  ],
   templateUrl: './app.component.html'
 })
 export class AppComponent implements AfterViewInit {
-  currentYear = new Date().getFullYear();
+  
 
   ngAfterViewInit() { this.revealSections(); }
   @HostListener('window:scroll') onScroll() { this.revealSections(); }
