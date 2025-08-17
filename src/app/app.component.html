@@ -1,4 +1,3 @@
-
 <!-- NAVBAR -->
 <header class="navbar">
     <div class="container nav-inner">
@@ -6,38 +5,37 @@
         <nav>
             <a href="#classes">Zajęcia</a>
             <a href="#benefits">Benefity</a>
-            <a href="#location">Lokalizacja</a>
+            <a href="#pricing">Cennik</a>
+            <a href="#news">Aktualności</a>
+            <a href="#coach">O trenerze</a>
+            <a href="#contact">Kontakt</a>
         </nav>
     </div>
 </header>
 
-
 <!-- HERO -->
-<section class="hero">
-    <div class="hero-content">
+<section class="hero" id="hero">
+    <div class="hero-content fade-in">
         <h1>Klub Bokserski BOX</h1>
-        <p>Siła, technika i charakter – trenuj z najlepszymi w Krakowie</p>
+        <p>Siła, technika i charakter — trenuj z najlepszymi w Krakowie</p>
         <a href="#classes" class="btn">Zapisz się</a>
     </div>
 </section>
 
-<!-- RODZAJE ZAJĘĆ -->
+<!-- ZAJĘCIA -->
 <section class="section alt-bg" id="classes">
     <div class="container fade-in">
         <h2 class="section-title">Rodzaje zajęć</h2>
         <div class="grid-3">
-            <div class="info-box">
-                <h3>Boks dla początkujących</h3>
-                <p>Nauka podstaw, praca nad kondycją i techniką.</p>
+            @for (c of classes; track c.title) {
+            <div class="info-tile">
+                <div class="tile-icon">
+                    <span class="material-icons">{{ c.icon }}</span>
+                </div>
+                <h3 class="tile-title">{{ c.title }}</h3>
+                <p class="tile-desc">{{ c.desc }}</p>
             </div>
-            <div class="info-box">
-                <h3>Zaawansowani</h3>
-                <p>Sparingi, zaawansowane kombinacje, przygotowania do walk.</p>
-            </div>
-            <div class="info-box">
-                <h3>Trening indywidualny</h3>
-                <p>1:1 z trenerem – pełne skupienie na Twoim rozwoju.</p>
-            </div>
+            }
         </div>
     </div>
 </section>
@@ -47,32 +45,116 @@
     <div class="container fade-in">
         <h2 class="section-title">Dlaczego warto trenować?</h2>
         <div class="grid-3">
-            <div class="info-box">
-                <h3>Kondycja</h3>
-                <p>Poprawisz wydolność i wzmocnisz ciało.</p>
+            @for (b of benefits; track b.title) {
+            <div class="info-tile">
+                <div class="tile-icon">
+                    <span class="material-icons">{{ b.icon }}</span>
+                </div>
+                <h3 class="tile-title">{{ b.title }}</h3>
+                <p class="tile-desc">{{ b.desc }}</p>
             </div>
-            <div class="info-box">
-                <h3>Discyplina</h3>
-                <p>Sport kształtuje charakter i regularność.</p>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- CENNIK -->
+<section class="section alt-bg" id="pricing">
+    <div class="container fade-in">
+        <h2 class="section-title">Cennik</h2>
+        <div class="pricing-grid">
+            @for (p of pricing; track p.name) {
+            <div class="price-card {{ p.highlight ? 'highlight' : '' }}">
+                <h3 class="price-name">{{ p.name }}</h3>
+                <div class="price-value">{{ p.price }}</div>
+                <ul class="price-features">
+                    @for (f of p.features; track f) { <li>{{ f }}</li> }
+                </ul>
+                <a href="#contact" class="btn btn-outline">Dołącz</a>
             </div>
-            <div class="info-box">
-                <h3>Pewność siebie</h3>
-                <p>Umiejętności i forma przełożą się na życie codzienne.</p>
+            }
+        </div>
+        <p class="note">* Ceny przykładowe — dostosuj do realnych.</p>
+    </div>
+</section>
+
+<!-- AKTUALNOŚCI -->
+<section class="section" id="news">
+    <div class="container fade-in">
+        <h2 class="section-title">Aktualności</h2>
+        <div class="news-list">
+            @for (n of news; track n.id) {
+            <article class="news-item">
+                <div class="news-date">{{ n.publishedAt | date:'dd.MM.yyyy HH:mm' }}</div>
+                <h3 class="news-title">{{ n.title }}</h3>
+                <p class="news-content">{{ n.content }}</p>
+            </article>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- O TRENERZE -->
+<section class="section alt-bg" id="coach">
+    <div class="container coach-grid fade-in">
+        <div class="coach-photo">
+            <img [src]="coach.photo" alt="Trener">
+        </div>
+        <div class="coach-info">
+            <h2 class="section-title" style="text-align:left">O trenerze</h2>
+            <h3>{{ coach.name }}</h3>
+            <p class="coach-role">{{ coach.role }}</p>
+            <p class="coach-bio">{{ coach.bio }}</p>
+            <a href="#contact" class="btn">Umów konsultację</a>
+        </div>
+    </div>
+</section>
+
+<!-- KONTAKT -->
+<section class="section" id="contact">
+    <div class="container contact-grid fade-in">
+        <div>
+            <h2 class="section-title" style="text-align:left">Kontakt</h2>
+
+            <p class="contact-line">
+                <span class="material-icons icon">phone</span>
+                <a class="link-strong" href="tel:+48600000000">+48&nbsp;600&nbsp;000&nbsp;000</a>
+            </p>
+
+            <p class="contact-line">
+                <span class="material-icons icon">mail</span>
+                <a class="link-strong" href="mailto:kontakt&#64;kbbox.pl">kontakt&#64;kbbox.pl</a>
+            </p>
+
+            <p class="contact-line">
+                <span class="material-icons icon">location_on</span>
+                ul. Przykładowa 1, Kraków
+            </p>
+
+            <form class="contact-form" (submit)="$event.preventDefault()">
+                <input type="text" placeholder="Imię" required>
+                <input type="email" placeholder="Email" required>
+                <textarea rows="4" placeholder="Wiadomość" required></textarea>
+                <button class="btn" type="submit">Wyślij</button>
+            </form>
+        </div>
+
+        <div class="map-wrap">
+            <div class="map-16x9">
+                <iframe title="Mapa klubu" src="https://www.google.com/maps?q=50.06143,19.93658&z=15&output=embed"
+                    loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
         </div>
     </div>
 </section>
 
-<!-- LOKALIZACJA -->
-<section class="section alt-bg" id="location">
-    <div class="container fade-in">
-        <h2 class="section-title">Gdzie nas znajdziesz?</h2>
-        <div style="position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;">
-            <iframe title="Mapa klubu" src="https://www.google.com/maps?q=50.06143,19.93658&z=15&output=embed"
-                style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
+<footer class="footer">
+    <div class="container footer-inner">
+        <div>© {{ currentYear }} KB BOX</div>
+        <div class="footer-links">
+            <a href="#hero">Góra</a>
+            <a href="#classes">Zajęcia</a>
+            <a href="#contact">Kontakt</a>
         </div>
-        <p style="margin-top:12px;color:var(--muted)">ul. Przykładowa 1, Kraków</p>
     </div>
-</section>
+</footer>
