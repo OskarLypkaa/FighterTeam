@@ -1,17 +1,5 @@
 /* ====== HERO ====== */
 .hero {
-    --fade-size: 140px;              /* wysokość wygaszenia od dołu */
-    --page-bg: #0e0f12;              /* <-- dopasuj do koloru tła strony */
-    background:
-        /* warstwa wygaszająca obraz do koloru tła na dole */
-        linear-gradient(
-            to bottom,
-            rgba(0,0,0,0) calc(100% - var(--fade-size)),
-            var(--page-bg) 100%
-        ),
-        /* oryginalny obraz tła */
-        url("/assets/images/hero-bg.jpg") center/cover no-repeat;
-    background-color: var(--page-bg); /* safety – gdyby gradient/maska nie zadziałała */
     min-height: 80vh;
     display: flex;
     align-items: center;
@@ -19,26 +7,37 @@
     text-align: center;
     position: relative;
     color: #fff;
-    /* ważne: hero NIE ma top-separatora */
 }
 
-.hero::after {
-    content: "";
+/* obraz z radialnym wygaszeniem do 0 na krawędziach */
+.hero>img {
     position: absolute;
     inset: 0;
-    /* to samo przyciemnienie, ale z wygaszeniem do zera w strefie fade */
-    background: linear-gradient(
-        to bottom,
-        rgba(0, 0, 0, .55) 0,
-        rgba(0, 0, 0, .55) calc(100% - var(--fade-size)),
-        rgba(0, 0, 0, 0) 100%
-    );
-    z-index: 1;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    z-index: 0;
+    pointer-events: none;
+
+
+
+    -webkit-mask-image: 
+        -webkit-gradient(linear, left top, left bottom, 
+            from(rgba(0, 0, 0, 0.6)), 
+            to(rgba(0, 0, 0, 0))
+        );
+
 }
+
 
 .hero .hero-content {
     position: relative;
-    z-index: 2;
+    z-index: 1;
+}
+.hero .hero-content {
+    position: relative;
+    z-index: 1; 
     max-width: 800px;
     margin-inline: auto;
 }
