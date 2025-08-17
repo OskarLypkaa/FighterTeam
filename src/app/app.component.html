@@ -1,7 +1,7 @@
 <!-- NAVBAR -->
 <header class="navbar">
     <div class="container nav-inner">
-        <a class="logo" href="#">KB<strong style="color:var(--accent)">BOX</strong></a>
+        <a class="logo" href="#hero">KB<strong style="color:var(--accent)">BOX</strong></a>
         <nav>
             <a href="#classes">Zajęcia</a>
             <a href="#schedule">Harmonogram</a>
@@ -15,7 +15,7 @@
 </header>
 
 <!-- HERO -->
-<section class="hero" id="hero">
+<section class="hero flow" id="hero">
     <div class="hero-content fade-in">
         <h1>Klub Bokserski BOX</h1>
         <p>Siła, technika i charakter — trenuj z najlepszymi w Krakowie</p>
@@ -24,7 +24,7 @@
 </section>
 
 <!-- ZAJĘCIA -->
-<section class="section alt-bg" id="classes">
+<section class="section flow alt-bg" id="classes">
     <div class="container fade-in">
         <h2 class="section-title">Rodzaje zajęć</h2>
         <div class="grid-3">
@@ -41,9 +41,8 @@
     </div>
 </section>
 
-
 <!-- HARMONOGRAM -->
-<section class="section" id="schedule">
+<section class="section flow" id="schedule">
     <div class="container fade-in">
         <h2 class="section-title">Harmonogram</h2>
 
@@ -84,7 +83,7 @@
 </section>
 
 <!-- CENNIK -->
-<section class="section alt-bg" id="pricing">
+<section class="section flow alt-bg" id="pricing">
     <div class="container fade-in">
         <h2 class="section-title">Cennik</h2>
         <div class="pricing-grid">
@@ -104,7 +103,7 @@
 </section>
 
 <!-- AKTUALNOŚCI -->
-<section class="section" id="news">
+<section class="section flow" id="news">
     <div class="container fade-in">
         <h2 class="section-title">Aktualności</h2>
         <div class="news-list">
@@ -120,7 +119,7 @@
 </section>
 
 <!-- BENEFITY -->
-<section class="section" id="benefits">
+<section class="section flow" id="benefits">
     <div class="container fade-in">
         <h2 class="section-title">Dlaczego warto trenować?</h2>
         <div class="grid-3">
@@ -138,7 +137,7 @@
 </section>
 
 <!-- O TRENERZE -->
-<section class="section alt-bg" id="coach">
+<section class="section flow alt-bg" id="coach">
     <div class="container coach-grid fade-in">
         <div class="coach-photo">
             <img [src]="coach.photo" alt="Trener">
@@ -153,10 +152,9 @@
 </section>
 
 <!-- KONTAKT (bez formularza, prosto) -->
-<section class="section" id="contact">
+<section class="section flow" id="contact">
     <div class="container contact-split fade-in">
 
-        <!-- LEWA: KONTAKT (bez godzin, bez formularza) -->
         <div class="contact-pane">
             <h2 class="section-title section-title-left">Kontakt</h2>
                 <p>
@@ -169,7 +167,6 @@
                     nas osobiście podczas treningów.
                 </p>
             <ul class="contact-list">
-
                 <li class="contact-line">
                     <span class="material-icons icon" aria-hidden="true">phone</span>
                     <a class="btn-link" href="tel:+48600000000" aria-label="Zadzwoń: +48 600 000 000">
@@ -184,7 +181,6 @@
                     </a>
                 </li>
                 <li class="contact-line">
-                    
                     <span class="material-icons icon" aria-hidden="true">map</span>
                     <a class="btn-link" target="_blank" rel="noopener"
                         href="https://www.google.com/maps/place/Szko%C5%82a+Sztuk+Walki+Fighter+Team/@49.9998607,19.9120652,18z">
@@ -194,7 +190,6 @@
             </ul>
         </div>
 
-        <!-- PRAWA: LOKALIZACJA (mapa bez „okna”, ciemny tryb) -->
         <div class="location-pane">
             <h2 class="section-title section-title-left">Lokalizacja</h2>
             <div class="map-16x9">
@@ -209,11 +204,10 @@
     </div>
 </section>
 
-
 <!-- FOOTER -->
 <footer class="footer">
     <div class="container footer-inner">
-        <div>© {{ currentYear }} KB BOX</div>
+        <div>© KB BOX {{ currentYear }}</div>
         <div class="footer-links">
             <a href="#hero">Góra</a>
             <a href="#classes">Zajęcia</a>
