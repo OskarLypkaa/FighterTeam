@@ -42,16 +42,52 @@ svg {
     display: block;
 }
 
+/* ====== SECTION LAYOUT + DIVIDERS ====== */
 section {
     padding: clamp(56px, 8vw, 96px) 16px;
 }
 
+section:nth-of-type(odd):not(.hero) {
+    background: var(--bg);
+    position: relative;
+}
+
+section:nth-of-type(even) {
+    background: var(--alt-bg);
+    position: relative;
+}
+
+/* gradient na przejściu odd → even */
+section:nth-of-type(even)::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    /* wysokość gradientu */
+    background: linear-gradient(to bottom, var(--bg), transparent);
+    pointer-events: none;
+}
+
+/* gradient na przejściu even → odd */
+section:nth-of-type(odd):not(.hero):not(:first-of-type)::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: linear-gradient(to bottom, var(--alt-bg), transparent);
+    pointer-events: none;
+}
+
+/* ====== CONTAINER ====== */
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 16px;
 }
-
 
 /* ====== NAVBAR ====== */
 .navbar {
