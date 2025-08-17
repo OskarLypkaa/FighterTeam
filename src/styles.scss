@@ -35,7 +35,6 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-
 img,
 svg {
     max-width: 100%;
@@ -62,45 +61,45 @@ section {
     z-index: 20;
     background: rgba(11, 11, 14, .6);
     backdrop-filter: blur(6px);
+}
 
-    .nav-inner {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 18px 24px;
-    }
+.navbar .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+}
 
-    .logo {
-        font-weight: 800;
-        letter-spacing: .5px;
-        font-size: 22px;
-        color: var(--fg);
-        text-decoration: none;
-    }
+.navbar .logo {
+    font-weight: 800;
+    letter-spacing: .5px;
+    font-size: 22px;
+    color: var(--fg);
+    text-decoration: none;
+}
 
-    nav {
-        display: flex;
-        gap: 32px;
+.navbar nav {
+    display: flex;
+    gap: 32px;
+}
 
-        a {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--fg);
-            text-decoration: none;
-            padding: 6px 0;
-            transition: color .2s;
+.navbar nav a {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--fg);
+    text-decoration: none;
+    padding: 6px 0;
+    transition: color .2s;
+}
 
-            &:hover {
-                color: var(--accent);
-            }
+.navbar nav a:hover {
+    color: var(--accent);
+}
 
-            &:focus-visible {
-                outline: none;
-                box-shadow: 0 0 0 3px var(--focus);
-                border-radius: 6px;
-            }
-        }
-    }
+.navbar nav a:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus);
+    border-radius: 6px;
 }
 
 /* ====== HERO ====== */
@@ -113,53 +112,55 @@ section {
     text-align: center;
     position: relative;
     color: #fff;
+    /* ważne: hero NIE ma top-separatora */
+}
 
-    &::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: rgba(0, 0, 0, .55);
-    }
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, .55);
+    z-index: 1;
+}
 
-    .hero-content {
-        position: relative;
-        z-index: 1;
-        max-width: 800px;
-        margin-inline: auto;
+.hero .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin-inline: auto;
+}
 
-        h1 {
-            font-size: clamp(32px, 6vw, 56px);
-            margin: 0;
-        }
+.hero .hero-content h1 {
+    font-size: clamp(32px, 6vw, 56px);
+    margin: 0;
+}
 
-        p {
-            font-size: clamp(16px, 2.2vw, 22px);
-            color: #ddd;
-        }
+.hero .hero-content p {
+    font-size: clamp(16px, 2.2vw, 22px);
+    color: #ddd;
+}
 
-        .btn {
-            display: inline-block;
-            margin-top: 24px;
-            padding: 14px 32px;
-            background: var(--accent);
-            color: #fff;
-            border-radius: 999px;
-            font-weight: 700;
-            text-decoration: none;
-            border: 1px solid transparent;
-            transition: background .2s, transform .06s;
+.hero .hero-content .btn {
+    display: inline-block;
+    margin-top: 24px;
+    padding: 14px 32px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 999px;
+    font-weight: 700;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: background .2s, transform .06s;
+}
 
-            &:hover {
-                background: #c12c37;
-                transform: translateY(-1px);
-            }
+.hero .hero-content .btn:hover {
+    background: #c12c37;
+    transform: translateY(-1px);
+}
 
-            &:focus-visible {
-                outline: none;
-                box-shadow: 0 0 0 3px var(--focus);
-            }
-        }
-    }
+.hero .hero-content .btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus);
 }
 
 /* ====== LAYOUT / UTIL ====== */
@@ -199,27 +200,27 @@ section {
     background: var(--surface);
     backdrop-filter: blur(6px);
     transition: transform .2s, box-shadow .2s, background .2s;
+}
 
-    .tile-icon {
-        margin-bottom: 8px;
-    }
+.info-tile .tile-icon {
+    margin-bottom: 8px;
+}
 
-    .tile-title {
-        margin: 0 0 6px;
-        font-size: 20px;
-        font-weight: 800;
-    }
+.info-tile .tile-title {
+    margin: 0 0 6px;
+    font-size: 20px;
+    font-weight: 800;
+}
 
-    .tile-desc {
-        color: var(--muted);
-        margin: 0;
-    }
+.info-tile .tile-desc {
+    color: var(--muted);
+    margin: 0;
+}
 
-    &:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, .35);
-        background: var(--surface-strong);
-    }
+.info-tile:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .35);
+    background: var(--surface-strong);
 }
 
 /* ====== PRICING ====== */
@@ -241,50 +242,50 @@ section {
     background: var(--surface);
     border: 1px solid transparent;
     transition: transform .2s, border-color .2s, box-shadow .2s;
+}
 
-    .price-name {
-        margin: 0 0 8px;
-        font-size: 18px;
-        font-weight: 800;
-    }
+.price-card .price-name {
+    margin: 0 0 8px;
+    font-size: 18px;
+    font-weight: 800;
+}
 
-    .price-value {
-        font-size: 32px;
-        font-weight: 900;
-        margin-bottom: 12px;
-    }
+.price-card .price-value {
+    font-size: 32px;
+    font-weight: 900;
+    margin-bottom: 12px;
+}
 
-    .price-features {
-        list-style: none;
-        padding: 0;
-        margin: 0 0 16px;
-        color: var(--muted);
-    }
+.price-card .price-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px;
+    color: var(--muted);
+}
 
-    .btn-outline {
-        display: inline-block;
-        padding: 10px 18px;
-        border-radius: 999px;
-        border: 1px solid var(--accent);
-        color: #fff;
-        text-decoration: none;
+.price-card .btn-outline {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 999px;
+    border: 1px solid var(--accent);
+    color: #fff;
+    text-decoration: none;
+}
 
-        &:focus-visible {
-            outline: none;
-            box-shadow: 0 0 0 3px var(--focus);
-        }
-    }
+.price-card .btn-outline:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--focus);
+}
 
-    &:hover {
-        transform: translateY(-3px);
-        border-color: var(--accent);
-        box-shadow: 0 12px 28px rgba(0, 0, 0, .4);
-    }
+.price-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, .4);
+}
 
-    &.highlight {
-        background: linear-gradient(180deg, rgba(230, 57, 70, .18), var(--surface));
-        border-color: rgba(230, 57, 70, .35);
-    }
+.price-card.highlight {
+    background: linear-gradient(180deg, rgba(230, 57, 70, .18), var(--surface));
+    border-color: rgba(230, 57, 70, .35);
 }
 
 .note {
@@ -460,86 +461,86 @@ section {
     border-spacing: 0;
     border-radius: 14px;
     overflow: hidden;
+}
 
-    thead th {
-        text-align: center;
-        background: rgba(255, 255, 255, 0.06);
-        color: #fff;
-        font-weight: 800;
-        padding: 14px 16px;
-        font-size: 14px;
+.schedule-table thead th {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    font-weight: 800;
+    padding: 14px 16px;
+    font-size: 14px;
+}
+
+.schedule-table tbody th,
+.schedule-table tbody td {
+    padding: 14px 16px;
+    vertical-align: middle;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.schedule-table tbody tr:hover td,
+.schedule-table tbody tr:hover th[scope="row"] {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.schedule-table tbody th[scope="row"] {
+    width: 180px;
+    font-weight: 800;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.schedule-table .slot-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 6px;
+}
+
+.schedule-table .slot-time {
+    display: inline-block;
+    min-width: 104px;
+    padding: 4px 8px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    font-weight: 700;
+}
+
+.schedule-table .slot-name {
+    margin-left: 8px;
+}
+
+.schedule-table .muted {
+    color: var(--muted);
+}
+
+@media (max-width: 700px) {
+    .schedule-table thead {
+        display: none;
     }
 
-    tbody th,
-    tbody td {
-        padding: 14px 16px;
-        vertical-align: middle;
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
+    .schedule-table tbody,
+    .schedule-table tr,
+    .schedule-table td,
+    .schedule-table th {
+        display: block;
+        width: 100%;
     }
 
-    tbody tr:hover td,
-    tbody tr:hover th[scope="row"] {
-        background: rgba(255, 255, 255, 0.05);
+    .schedule-table tbody th[scope="row"] {
+        border-top: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        border-left: 4px solid var(--accent);
+        border-radius: 8px 8px 0 0;
+        padding: 12px 16px;
     }
 
-    tbody th[scope="row"] {
-        width: 180px;
-        font-weight: 800;
-        color: #fff;
-        background: rgba(255, 255, 255, 0.03);
-    }
-
-    .slot-list {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: grid;
-        gap: 6px;
-    }
-
-    .slot-time {
-        display: inline-block;
-        min-width: 104px;
-        padding: 4px 8px;
-        border-radius: 8px;
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.10);
-        font-weight: 700;
-    }
-
-    .slot-name {
-        margin-left: 8px;
-    }
-
-    .muted {
-        color: var(--muted);
-    }
-
-    @media (max-width: 700px) {
-        thead {
-            display: none;
-        }
-
-        tbody,
-        tr,
-        td,
-        th {
-            display: block;
-            width: 100%;
-        }
-
-        tbody th[scope="row"] {
-            border-top: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            border-left: 4px solid var(--accent);
-            border-radius: 8px 8px 0 0;
-            padding: 12px 16px;
-        }
-
-        tbody td {
-            padding: 12px 16px 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
+    .schedule-table tbody td {
+        padding: 12px 16px 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 }
 
