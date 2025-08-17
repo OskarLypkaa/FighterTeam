@@ -1,3 +1,4 @@
+// 🎨 Zmienne
 :root {
     --bg: #0b0b0e;
     --fg: #f1f1f1;
@@ -6,6 +7,7 @@
     --alt-bg: #15151b;
 }
 
+// 🔠 Reset i podstawy
 body {
     margin: 0;
     background: var(--bg);
@@ -13,67 +15,73 @@ body {
     font-family: sans-serif;
 }
 
-section {
-    padding: 80px 16px;
-}
 html {
     scroll-behavior: smooth;
 }
 
+section {
+    padding: 80px 16px;
+}
+
+// 🧭 Navbar
 .navbar {
     position: sticky;
     top: 0;
-    background: rgba(11, 11, 14, .4);
-    backdrop-filter: blur(4px);
+    background: rgba(11, 11, 14, 0.6);
+    backdrop-filter: blur(6px);
     z-index: 20;
+
+    .nav-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 24px;
+    }
+
+    .logo {
+        font-weight: 800;
+        letter-spacing: 1px;
+        font-size: 22px;
+        color: var(--fg);
+        text-decoration: none;
+    }
+
+    nav {
+        display: flex;
+        gap: 40px;
+
+        a {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--fg);
+            text-decoration: none;
+            position: relative;
+            padding-bottom: 6px;
+            transition: color 0.3s;
+
+            &::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 0;
+                height: 2px;
+                background: var(--accent);
+                transition: width 0.3s;
+            }
+
+            &:hover {
+                color: var(--accent);
+
+                &::after {
+                    width: 100%;
+                }
+            }
+        }
+    }
 }
 
-.nav-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-}
-
-.navbar .logo {
-    font-weight: 800;
-    letter-spacing: 1px;
-    font-size: 20px;
-    color: var(--fg);
-}
-
-.navbar nav {
-    display: flex;
-    gap: 50px;
-}
-
-.navbar nav a {
-    font-size: 15px;
-    font-weight: 500;
-    color: var(--fg);
-    position: relative;
-    padding-bottom: 4px;
-}
-
-.navbar nav a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 0;
-    height: 2px;
-    background: var(--accent);
-    transition: width .3s;
-}
-
-.navbar nav a:hover::after {
-    width: 100%;
-}
-
-.alt-bg {
-    background: var(--alt-bg);
-}
-
+// 🌄 Hero
 .hero {
     background: url("assets/hero/hero-bg.jpg") center/cover no-repeat;
     min-height: 90vh;
@@ -83,45 +91,50 @@ html {
     text-align: center;
     position: relative;
     color: #fff;
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.55);
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 800px;
+
+        h1 {
+            font-size: 56px;
+            margin: 0;
+        }
+
+        p {
+            margin-top: 12px;
+            font-size: 22px;
+            color: #ddd;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 24px;
+            padding: 14px 32px;
+            background: var(--accent);
+            color: #fff;
+            border-radius: 999px;
+            font-weight: 600;
+            transition: background 0.3s;
+
+            &:hover {
+                background: #c12c37;
+            }
+        }
+    }
 }
 
-.hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, .55);
-}
-
-.hero-content {
-    position: relative;
-    z-index: 1;
-    max-width: 800px;
-}
-
-.hero h1 {
-    font-size: 52px;
-    margin: 0;
-}
-
-.hero p {
-    margin-top: 12px;
-    font-size: 20px;
-    color: #ddd;
-}
-
-.hero .btn {
-    display: inline-block;
-    margin-top: 24px;
-    padding: 12px 28px;
-    background: var(--accent);
-    color: #fff;
-    border-radius: 999px;
-    font-weight: 600;
-    transition: background .3s;
-}
-
-.hero .btn:hover {
-    background: #c12c37;
+// 📦 Sekcje
+.alt-bg {
+    background: var(--alt-bg);
 }
 
 .container {
@@ -131,7 +144,7 @@ html {
 }
 
 .section-title {
-    font-size: 32px;
+    font-size: 36px;
     margin-bottom: 32px;
     text-align: center;
 }
@@ -140,10 +153,8 @@ html {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
-}
 
-@media (max-width:900px) {
-    .grid-3 {
+    @media (max-width: 900px) {
         grid-template-columns: 1fr;
     }
 }
@@ -153,22 +164,22 @@ html {
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.04);
     backdrop-filter: blur(6px);
-    transition: transform .3s, box-shadow .3s;
+    transition: transform 0.3s, box-shadow 0.3s;
+
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
 }
 
-.info-box:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, .4);
-}
-
-/* animacje przy scrollu */
+// ✨ Animacje scroll
 .fade-in {
     opacity: 0;
     transform: translateY(40px);
-    transition: opacity .8s ease, transform .8s ease;
-}
+    transition: opacity 0.8s ease, transform 0.8s ease;
 
-.fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
+    &.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
