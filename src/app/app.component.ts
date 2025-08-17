@@ -18,7 +18,7 @@ export class AppComponent implements AfterViewInit {
   @HostListener('window:scroll') onScroll() { this.revealSections(); }
   private revealSections() {
     const els = document.querySelectorAll('.fade-in');
-    const trigger = window.innerHeight * 0.85;
+    const trigger = window.innerHeight * 0.7;
     els.forEach(el => {
       const r = el.getBoundingClientRect();
       if (r.top < trigger) el.classList.add('visible');
