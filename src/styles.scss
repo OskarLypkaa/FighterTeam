@@ -35,20 +35,6 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* --- delikatna faktura i winieta pod całą stroną --- */
-body::before {
-    content: "";
-    position: fixed;
-    inset: -20vmax;
-    z-index: -2;
-    pointer-events: none;
-    background:
-        radial-gradient(1200px 600px at 50% -10%, rgba(255, 255, 255, .04), transparent 60%),
-        radial-gradient(900px 500px at 10% 110%, rgba(255, 255, 255, .03), transparent 50%),
-        radial-gradient(800px 500px at 90% 120%, rgba(255, 255, 255, .025), transparent 50%),
-        linear-gradient(180deg, var(--bg), color-mix(in oklab, var(--bg), #000 6%));
-    filter: saturate(.95) contrast(1.02);
-}
 
 img,
 svg {
@@ -67,57 +53,12 @@ section {
     padding: 0 16px;
 }
 
-/* ====== FLOW BETWEEN SECTIONS ====== */
-/* Sekcja ma własny „bazowy” kolor tła: --section-bg; alt-bg tylko go podmienia */
-.section {
-    --section-bg: var(--bg);
-}
-
-.alt-bg {
-    --section-bg: var(--alt-bg);
-}
-
-/* Tło sekcji – bardzo subtelne, żeby nie była to płaska blacha */
-.flow {
-    position: relative;
-    isolation: isolate;
-    background:
-        radial-gradient(600px 280px at 15% 10%, color-mix(in oklab, var(--section-bg), #fff 4%), transparent 70%),
-        radial-gradient(700px 320px at 85% 100%, color-mix(in oklab, var(--section-bg), #000 6%), transparent 70%),
-        var(--section-bg);
-}
-
-/* Płynne zlanie z poprzednią/następną sekcją – miękkie gradienty wyjeżdżające poza blok */
-.flow::before,
-.flow::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 64px;
-    pointer-events: none;
-    z-index: 0;
-}
-
-.flow::before {
-    top: -64px;
-    background: linear-gradient(to bottom, transparent 0, var(--section-bg) 100%);
-}
-
-.flow::after {
-    bottom: -64px;
-    background: linear-gradient(to top, transparent 0, var(--section-bg) 100%);
-}
-
-/* Mikroskopijny separator tylko gdy dwa flow są po sobie – praktycznie niewidoczny, ale porządkuje */
-.flow+.flow {
-    box-shadow: 0 -1px 0 0 rgba(255, 255, 255, .03) inset;
-}
 
 /* ====== NAVBAR ====== */
 .navbar {
-    position: sticky;
+    position: fixed;
     top: 0;
+    width: 100%;
     z-index: 20;
     background: rgba(11, 11, 14, .6);
     backdrop-filter: blur(6px);
@@ -165,7 +106,7 @@ section {
 /* ====== HERO ====== */
 .hero {
     background: url("/assets/images/hero-bg.jpg") center/cover no-repeat;
-    min-height: 90vh;
+    min-height: 80vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -192,7 +133,6 @@ section {
         }
 
         p {
-            margin-top: 12px;
             font-size: clamp(16px, 2.2vw, 22px);
             color: #ddd;
         }
