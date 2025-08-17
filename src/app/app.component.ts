@@ -25,33 +25,78 @@ export class AppComponent implements AfterViewInit {
     });
   }
 
-  classes: SimpleTile[] = [
-    { title: 'Boks dla początkujących', desc: 'Technika, poruszanie, dystans, kondycja.', icon: 'sports_mma' },
-    { title: 'Grupa zaawansowana', desc: 'Kombinacje, tarcza, sparingi kontrolowane.', icon: 'fitness_center' },
-    { title: 'Trening indywidualny', desc: '1:1 z trenerem, plan pod cele, analiza postępów.', icon: 'target' } // 'target' nie istnieje w core; alternatywy: 'center_focus_strong' / 'track_changes'
-  ];
-
-  benefits: SimpleTile[] = [
-    { title: 'Forma i zdrowie', desc: 'Lepsza wydolność, siła i koordynacja.', icon: 'favorite' },
-    { title: 'Dyscyplina', desc: 'Regularność, cel, konsekwencja.', icon: 'timer' },
-    { title: 'Pewność siebie', desc: 'Świadomość ciała i głowy — także poza ringiem.', icon: 'shield' } // alternatywa: 'shield' / 'verified_user'
-  ];
-
-  news: NewsItem[] = [
-    { id: '1', title: 'Nabór wrzesień', content: 'Startują zapisy do grup początkujących. Limit miejsc!', publishedAt: new Date().toISOString() },
-    { id: '2', title: 'Sparing sobota', content: 'Sparing otwarty — sobota 10:00. Kaski obowiązkowe.', publishedAt: new Date(Date.now() - 86400000).toISOString() },
-  ];
-
-  pricing: PricePlan[] = [
-    { name: 'Wejście jednorazowe', price: '40 zł', features: ['1 trening', 'Dla każdej grupy'] },
-    { name: 'Karnet miesięczny', price: '169 zł', features: ['Bez limitu wejść', 'Wszystkie grupy'], highlight: true },
-    { name: 'Junior (do 18 lat)', price: '129 zł', features: ['Bez limitu wejść', 'Opieka trenerska'] },
-  ];
-
   coach = {
     name: 'Trener Adam Kowalski',
     role: 'Trener główny • 15 lat doświadczenia',
     bio: 'Były zawodnik, licencjonowany szkoleniowiec. Specjalista od techniki bokserskiej i przygotowania motorycznego.',
-    photo: '/assets/images/coach.png' 
+    photo: '/assets/images/coach.png'
   };
+
+  classes = [
+    { icon: 'sports_mma', title: 'Boks – podstawy', desc: 'Stance, gardа, praca nóg, proste kombinacje.' },
+    { icon: 'fitness_center', title: 'Kondycja & siła', desc: 'Obwody, core, mobility pod boks.' },
+    { icon: 'groups', title: 'Sparingi kontrolowane', desc: 'Technika na lekko, praca w parach.' },
+    { icon: 'self_improvement', title: 'Technika zaawansowana', desc: 'Uniki, kontry, timing, ringcraft.' },
+    { icon: 'shield', title: 'Tarcza z trenerem', desc: 'Indywidualne rundy na tarczach.' },
+    { icon: 'favorite', title: 'Junior • 10–15 lat', desc: 'Bezpieczeństwo, ruch, podstawy boksu dla młodych.' }
+  ];
+
+  benefits = [
+    { icon: 'star', title: 'Pewność siebie', desc: 'Budujesz głowę i ciało jednocześnie.' },
+    { icon: 'bolt', title: 'Kondycja', desc: 'VO₂ max, wytrzymałość i siła eksplozywna.' },
+    { icon: 'psychology', title: 'Redukcja stresu', desc: 'Reset po pracy, endorfiny zamiast kofeiny.' },
+    { icon: 'health_and_safety', title: 'Bezpieczeństwo', desc: 'Trenujesz w kontrolowanych warunkach.' },
+    { icon: 'diversity_3', title: 'Ekipa', desc: 'Normalni ludzie, zero napinki.' },
+    { icon: 'schedule', title: 'Elastyczne godziny', desc: 'Rano i wieczorem – dopasuj do siebie.' }
+  ];
+
+  pricing = [
+    { name: 'Wejściówka', price: '30 zł', features: ['Jednorazowy wstęp', 'Dostęp do zajęć grupowych'] },
+    { name: 'Karnet 8x', price: '180 zł', highlight: true, features: ['8 wejść/miesiąc', 'Zajęcia grupowe', 'Wolna sala'] },
+    { name: 'Open', price: '230 zł', features: ['Nielimitowane wejścia', 'Sparingi i tarcze'] }
+  ];
+
+  news = [
+    { id: 1, title: 'Nowa grupa początkująca od poniedziałku', content: 'Start o 18:00 – wbijasz, przedstawiasz się trenerowi i jedziesz.', publishedAt: new Date() },
+    { id: 2, title: 'Sobotni open gym', content: 'Luźna sala 10:00–12:00. Worki, tarcze, mobilizacja.', publishedAt: new Date(Date.now() - 86400000) }
+  ];
+
+  schedule = [
+    {
+      day: 'Poniedziałek', slots: [
+        { time: '18:00–19:00', name: 'Boks – podstawy' },
+        { time: '19:00–20:00', name: 'Sparingi kontrolowane' }
+      ]
+    },
+    {
+      day: 'Wtorek', slots: [
+        { time: '07:00–08:00', name: 'Kondycja & siła' },
+        { time: '18:00–19:00', name: 'Technika zaawansowana' }
+      ]
+    },
+    {
+      day: 'Środa', slots: [
+        { time: '18:00–19:00', name: 'Boks – podstawy' },
+        { time: '19:00–20:00', name: 'Tarcza z trenerem' }
+      ]
+    },
+    {
+      day: 'Czwartek', slots: [
+        { time: '07:00–08:00', name: 'Kondycja & siła' },
+        { time: '18:00–19:00', name: 'Junior 10–15' }
+      ]
+    },
+    {
+      day: 'Piątek', slots: [
+        { time: '18:00–19:00', name: 'Technika zaawansowana' }
+      ]
+    },
+    {
+      day: 'Sobota', slots: [
+        { time: '10:00–12:00', name: 'Open gym (wolna sala)' }
+      ]
+    },
+    { day: 'Niedziela', slots: [] }
+  ];
+
 }

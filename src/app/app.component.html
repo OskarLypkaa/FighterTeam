@@ -40,21 +40,45 @@
     </div>
 </section>
 
-<!-- BENEFITY -->
-<section class="section" id="benefits">
+
+<!-- HARMONOGRAM -->
+<section class="section" id="schedule">
     <div class="container fade-in">
-        <h2 class="section-title">Dlaczego warto trenować?</h2>
-        <div class="grid-3">
-            @for (b of benefits; track b.title) {
-            <div class="info-tile">
-                <div class="tile-icon">
-                    <span class="material-icons">{{ b.icon }}</span>
-                </div>
-                <h3 class="tile-title">{{ b.title }}</h3>
-                <p class="tile-desc">{{ b.desc }}</p>
-            </div>
-            }
+        <h2 class="section-title">Harmonogram</h2>
+
+        <div class="table-scroll">
+            <table class="schedule-table" aria-describedby="schedule-caption">
+                <caption id="schedule-caption" class="vh">Tygodniowy harmonogram zajęć</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Dzień</th>
+                        <th scope="col">Godziny i zajęcia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (d of schedule; track d.day) {
+                    <tr>
+                        <th scope="row">{{ d.day }}</th>
+                        <td>
+                            @if (d.slots.length === 0) {
+                            <span class="muted">Brak zajęć</span>
+                            } @else {
+                            <ul class="slot-list">
+                                @for (s of d.slots; track s.time) {
+                                <li><span class="slot-time">{{ s.time }}</span> <span class="slot-name">{{ s.name
+                                        }}</span></li>
+                                }
+                            </ul>
+                            }
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
         </div>
+
+        <p class="note">Aby dołączyć – po prostu przyjdź na wybrane zajęcia i zgłoś się do trenera. W razie pytań:
+            telefon lub e-mail.</p>
     </div>
 </section>
 
@@ -94,6 +118,23 @@
     </div>
 </section>
 
+<!-- BENEFITY -->
+<section class="section" id="benefits">
+    <div class="container fade-in">
+        <h2 class="section-title">Dlaczego warto trenować?</h2>
+        <div class="grid-3">
+            @for (b of benefits; track b.title) {
+            <div class="info-tile">
+                <div class="tile-icon">
+                    <span class="material-icons">{{ b.icon }}</span>
+                </div>
+                <h3 class="tile-title">{{ b.title }}</h3>
+                <p class="tile-desc">{{ b.desc }}</p>
+            </div>
+            }
+        </div>
+    </div>
+</section>
 <!-- O TRENERZE -->
 <section class="section alt-bg" id="coach">
     <div class="container coach-grid fade-in">
@@ -105,52 +146,69 @@
             <h3>{{ coach.name }}</h3>
             <p class="coach-role">{{ coach.role }}</p>
             <p class="coach-bio">{{ coach.bio }}</p>
-            <a href="#contact" class="btn">Umów konsultację</a>
         </div>
     </div>
 </section>
 
-<!-- KONTAKT -->
+<!-- KONTAKT (bez formularza, prosto) -->
 <section class="section" id="contact">
-    <div class="container contact-grid fade-in">
-        <div>
-            <h2 class="section-title" style="text-align:left">Kontakt</h2>
+    <div class="container contact-split fade-in">
 
-            <p class="contact-line">
-                <span class="material-icons icon">phone</span>
-                <a class="link-strong" href="tel:+48600000000">+48&nbsp;600&nbsp;000&nbsp;000</a>
-            </p>
+        <!-- LEWA: KONTAKT (bez godzin, bez formularza) -->
+        <div class="contact-pane">
+            <h2 class="section-title section-title-left">Kontakt</h2>
+                <p>
+                    Chcesz dołączyć do nas? To proste, nie musisz wypełniać żadnych formularzy ani rezerwować miejsca. Wystarczy, że
+                    pojawisz się na treningu i dasz znać trenerowi, że chcesz spróbować. Drzwi są zawsze otwarte dla nowych osób,
+                    niezależnie od poziomu doświadczenia.
+                
+                    Jeśli masz pytania dotyczące zajęć, grafiku czy czegokolwiek innego, skontaktuj się z nami telefonicznie lub wpadnij
+                    do
+                    nas osobiście podczas treningów.
+                </p>
+            <ul class="contact-list">
 
-            <p class="contact-line">
-                <span class="material-icons icon">mail</span>
-                <a class="link-strong" href="mailto:kontakt&#64;kbbox.pl">kontakt&#64;kbbox.pl</a>
-            </p>
-
-            
-
-            <form class="contact-form" (submit)="$event.preventDefault()">
-                <input type="text" placeholder="Imię" required>
-                <input type="email" placeholder="Email" required>
-                <textarea rows="4" placeholder="Wiadomość" required></textarea>
-                <button class="btn" type="submit">Wyślij</button>
-            </form>
+                <li class="contact-line">
+                    <span class="material-icons icon" aria-hidden="true">phone</span>
+                    <a class="btn-link" href="tel:+48600000000" aria-label="Zadzwoń: +48 600 000 000">
+                        Zadzwoń: +48&nbsp;600&nbsp;000&nbsp;000
+                    </a>
+                </li>
+                <li class="contact-line">
+                    <span class="material-icons icon" aria-hidden="true">mail</span>
+                    <a class="btn-link" href="mailto:kontakt@kbbox.pl?subject=Zapytanie%20ze%20strony"
+                        aria-label="Napisz e-mail do KB BOX">
+                        Napisz e-mail
+                    </a>
+                </li>
+                <li class="contact-line">
+                    
+                    <span class="material-icons icon" aria-hidden="true">map</span>
+                    <a class="btn-link" target="_blank" rel="noopener"
+                        href="https://www.google.com/maps/place/Szko%C5%82a+Sztuk+Walki+Fighter+Team/@49.9998607,19.9120652,18z">
+                        Fighter Team, Forteczna 51, 30-437 Kraków
+                    </a>
+                </li>
+            </ul>
         </div>
 
-        <div class="map-wrap">
-            <h2 class="section-title" style="text-align:left">Lokalizacja</h2>
-            <p class="contact-line">
-                <span class="material-icons icon">location_on</span>
-                ul. Przykładowa 1, Kraków
-            </p>
+        <!-- PRAWA: LOKALIZACJA (mapa bez „okna”, ciemny tryb) -->
+        <div class="location-pane">
+            <h2 class="section-title section-title-left">Lokalizacja</h2>
             <div class="map-16x9">
-                
-                <iframe title="Mapa klubu" src="https://www.google.com/maps?q=50.06143,19.93658&z=15&output=embed"
-                    loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe class="map-embed map-dark"
+                    src="https://www.google.com/maps?ll=49.9998607,19.9120652&z=18&q=Szko%C5%82a%20Sztuk%20Walki%20Fighter%20Team&output=embed"
+                    loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen
+                    aria-label="Mapa dojazdu: Szkoła Sztuk Walki Fighter Team">
+                </iframe>
             </div>
         </div>
+
     </div>
 </section>
 
+
+<!-- FOOTER -->
 <footer class="footer">
     <div class="container footer-inner">
         <div>© {{ currentYear }} KB BOX</div>
