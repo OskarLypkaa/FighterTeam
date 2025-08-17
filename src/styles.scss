@@ -168,15 +168,14 @@ section { padding: clamp(56px, 8vw, 96px) 16px; }
 
 .schedule-table {
   width: 100%; border-collapse: separate; border-spacing: 0;
-  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.10);
   border-radius: 14px; overflow: hidden;
 
   thead th {
-    text-align: left; background: rgba(255,255,255,0.06); color: #fff;
+    text-align: center; background: rgba(255,255,255,0.06); color: #fff;
     font-weight: 800; padding: 14px 16px; font-size: 14px;
   }
 
-  tbody th, tbody td { padding: 14px 16px; vertical-align: top; border-top: 1px solid rgba(255,255,255,0.08); }
+  tbody th, tbody td { padding: 14px 16px; vertical-align: center; border-top: 1px solid rgba(255,255,255,0.08); }
 
   tbody tr:hover td, tbody tr:hover th[scope="row"] { background: rgba(255,255,255,0.05); }
 
