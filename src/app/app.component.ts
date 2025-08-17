@@ -1,10 +1,6 @@
 import { Component, AfterViewInit, HostListener } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
-type NewsItem = { id: string; title: string; content: string; publishedAt: string };
-type PricePlan = { name: string; price: string; features: string[]; highlight?: boolean };
-type SimpleTile = { title: string; desc: string; icon: string }; // icon = nazwa Material Icon
-
 @Component({
   selector: 'app-root',
   standalone: true,
