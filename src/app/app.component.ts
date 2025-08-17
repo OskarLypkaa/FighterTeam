@@ -52,6 +52,6 @@ export class AppComponent implements AfterViewInit {
     name: 'Trener Adam Kowalski',
     role: 'Trener główny • 15 lat doświadczenia',
     bio: 'Były zawodnik, licencjonowany szkoleniowiec. Specjalista od techniki bokserskiej i przygotowania motorycznego.',
-    photo: 'assets/coach/coach.jpg' // logo zostawiamy jak było; foto trenera z assets
+    photo: '/assets/images/coach.png' 
   };
 }

@@ -126,10 +126,7 @@
                 <a class="link-strong" href="mailto:kontakt&#64;kbbox.pl">kontakt&#64;kbbox.pl</a>
             </p>
 
-            <p class="contact-line">
-                <span class="material-icons icon">location_on</span>
-                ul. Przykładowa 1, Kraków
-            </p>
+            
 
             <form class="contact-form" (submit)="$event.preventDefault()">
                 <input type="text" placeholder="Imię" required>
@@ -140,7 +137,13 @@
         </div>
 
         <div class="map-wrap">
+            <h2 class="section-title" style="text-align:left">Lokalizacja</h2>
+            <p class="contact-line">
+                <span class="material-icons icon">location_on</span>
+                ul. Przykładowa 1, Kraków
+            </p>
             <div class="map-16x9">
+                
                 <iframe title="Mapa klubu" src="https://www.google.com/maps?q=50.06143,19.93658&z=15&output=embed"
                     loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
