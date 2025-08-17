@@ -1,12 +1,31 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, AfterViewInit, HostListener } from '@angular/core';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  standalone: true,
+  imports: [DatePipe],
+  templateUrl: './app.component.html'
 })
-export class AppComponent {
-  title = 'test-app';
+export class AppComponent implements AfterViewInit {
+  ngAfterViewInit() {
+    this.revealSections();
+  }
+
+  @HostListener('window:scroll')
+  onScroll() {
+    this.revealSections();
+  }
+
+  private revealSections() {
+    const elements = document.querySelectorAll('.fade-in');
+    const triggerBottom = window.innerHeight * 0.85;
+
+    elements.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < triggerBottom) {
+        el.classList.add('visible');
+      }
+    });
+  }
 }
