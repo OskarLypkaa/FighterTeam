@@ -1,0 +1,30 @@
+/* ====== COACH ====== */
+.coach-grid {
+    display: grid;
+    gap: 28px;
+    grid-template-columns: 1fr 1.2fr;
+    align-items: center;
+}
+
+@media (max-width: 1000px) {
+    .coach-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.coach-photo img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.coach-info .coach-role {
+    color: var(--muted);
+    margin: 4px 0 12px;
+}
+
+.coach-info .coach-bio {
+    color: #d8d8d8;
+    margin-bottom: 16px;
+}

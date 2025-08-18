@@ -1,0 +1,94 @@
+/* ====== SCHEDULE TABLE ====== */
+.table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.schedule-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.schedule-table thead th {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    font-weight: 800;
+    padding: 14px 16px;
+    font-size: 14px;
+}
+
+.schedule-table tbody th,
+.schedule-table tbody td {
+    padding: 14px 16px;
+    vertical-align: middle;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.schedule-table tbody tr:hover td,
+.schedule-table tbody tr:hover th[scope="row"] {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.schedule-table tbody th[scope="row"] {
+    width: 180px;
+    font-weight: 800;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.schedule-table .slot-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 6px;
+}
+
+.schedule-table .slot-time {
+    display: inline-block;
+    min-width: 104px;
+    padding: 4px 8px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    font-weight: 700;
+}
+
+.schedule-table .slot-name {
+    margin-left: 8px;
+}
+
+.schedule-table .muted {
+    color: var(--muted);
+}
+
+@media (max-width: 700px) {
+    .schedule-table thead {
+        display: none;
+    }
+
+    .schedule-table tbody,
+    .schedule-table tr,
+    .schedule-table td,
+    .schedule-table th {
+        display: block;
+        width: 100%;
+    }
+
+    .schedule-table tbody th[scope="row"] {
+        border-top: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        border-left: 4px solid var(--accent);
+        border-radius: 8px 8px 0 0;
+        padding: 12px 16px;
+    }
+
+    .schedule-table tbody td {
+        padding: 12px 16px 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+}

@@ -1,1 +1,16 @@
-<p>benefits works!</p>
+<section class="section flow" id="benefits">
+    <div class="container fade-in">
+        <h2 class="section-title">Dlaczego warto trenować?</h2>
+        <div class="grid-3">
+            @for (b of benefits; track b.title) {
+            <div class="info-tile">
+                <div class="tile-icon">
+                    <span class="material-icons">{{ b.icon }}</span>
+                </div>
+                <h3 class="tile-title">{{ b.title }}</h3>
+                <p class="tile-desc">{{ b.desc }}</p>
+            </div>
+            }
+        </div>
+    </div>
+</section>

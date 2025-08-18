@@ -5,185 +5,25 @@
 <app-hero></app-hero>
 
 <!-- ZAJĘCIA -->
-<section class="section flow alt-bg" id="classes">
-    <div class="container fade-in">
-        <h2 class="section-title">Rodzaje zajęć</h2>
-        <div class="grid-3">
-            @for (c of classes; track c.title) {
-            <div class="info-tile">
-                <div class="tile-icon">
-                    <span class="material-icons">{{ c.icon }}</span>
-                </div>
-                <h3 class="tile-title">{{ c.title }}</h3>
-                <p class="tile-desc">{{ c.desc }}</p>
-            </div>
-            }
-        </div>
-    </div>
-</section>
+<app-classes ></app-classes>
 
 <!-- HARMONOGRAM -->
-<section class="section flow" id="schedule">
-    <div class="container fade-in">
-        <h2 class="section-title">Harmonogram</h2>
-
-        <div class="table-scroll">
-            <table class="schedule-table" aria-describedby="schedule-caption">
-                <caption id="schedule-caption" class="vh">Tygodniowy harmonogram zajęć</caption>
-                <thead>
-                    <tr>
-                        <th scope="col">Dzień</th>
-                        <th scope="col">Godziny i zajęcia</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @for (d of schedule; track d.day) {
-                    <tr>
-                        <th scope="row">{{ d.day }}</th>
-                        <td>
-                            @if (d.slots.length === 0) {
-                            <span class="muted">Brak zajęć</span>
-                            } @else {
-                            <ul class="slot-list">
-                                @for (s of d.slots; track s.time) {
-                                <li><span class="slot-time">{{ s.time }}</span> <span class="slot-name">{{ s.name
-                                        }}</span></li>
-                                }
-                            </ul>
-                            }
-                        </td>
-                    </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-
-        <p class="note">Aby dołączyć – po prostu przyjdź na wybrane zajęcia i zgłoś się do trenera. W razie pytań:
-            telefon lub e-mail.</p>
-    </div>
-</section>
+<app-schedule></app-schedule>
 
 <!-- CENNIK -->
-<section class="section flow alt-bg" id="pricing">
-    <div class="container fade-in">
-        <h2 class="section-title">Cennik</h2>
-        <div class="pricing-grid">
-            @for (p of pricing; track p.name) {
-            <div class="price-card {{ p.highlight ? 'highlight' : '' }}">
-                <h3 class="price-name">{{ p.name }}</h3>
-                <div class="price-value">{{ p.price }}</div>
-                <ul class="price-features">
-                    @for (f of p.features; track f) { <li>{{ f }}</li> }
-                </ul>
-                <a href="#contact" class="btn btn-outline">Dołącz</a>
-            </div>
-            }
-        </div>
-        <p class="note">* Ceny przykładowe — dostosuj do realnych.</p>
-    </div>
-</section>
+<app-pricing></app-pricing>
 
 <!-- AKTUALNOŚCI -->
-<section class="section flow" id="news">
-    <div class="container fade-in">
-        <h2 class="section-title">Aktualności</h2>
-        <div class="news-list">
-            @for (n of news; track n.id) {
-            <article class="news-item">
-                <div class="news-date">{{ n.publishedAt | date:'dd.MM.yyyy HH:mm' }}</div>
-                <h3 class="news-title">{{ n.title }}</h3>
-                <p class="news-content">{{ n.content }}</p>
-            </article>
-            }
-        </div>
-    </div>
-</section>
-
-<!-- BENEFITY -->
-<section class="section flow" id="benefits">
-    <div class="container fade-in">
-        <h2 class="section-title">Dlaczego warto trenować?</h2>
-        <div class="grid-3">
-            @for (b of benefits; track b.title) {
-            <div class="info-tile">
-                <div class="tile-icon">
-                    <span class="material-icons">{{ b.icon }}</span>
-                </div>
-                <h3 class="tile-title">{{ b.title }}</h3>
-                <p class="tile-desc">{{ b.desc }}</p>
-            </div>
-            }
-        </div>
-    </div>
-</section>
+<app-news></app-news>
 
 <!-- O TRENERZE -->
-<section class="section flow alt-bg" id="coach">
-    <div class="container coach-grid fade-in">
-        <div class="coach-photo">
-            <img [src]="coach.photo" alt="Trener">
-        </div>
-        <div class="coach-info">
-            <h2 class="section-title" style="text-align:left">O trenerze</h2>
-            <h3>{{ coach.name }}</h3>
-            <p class="coach-role">{{ coach.role }}</p>
-            <p class="coach-bio">{{ coach.bio }}</p>
-        </div>
-    </div>
-</section>
+<app-coach></app-coach>
+
+<!-- BENEFITY -->
+<app-benefits></app-benefits>
 
 <!-- KONTAKT (bez formularza, prosto) -->
-<section class="section flow" id="contact">
-    <div class="container contact-split fade-in">
-
-        <div class="contact-pane">
-            <h2 class="section-title section-title-left">Kontakt</h2>
-                <p>
-                    Chcesz dołączyć do nas? To proste, nie musisz wypełniać żadnych formularzy ani rezerwować miejsca. Wystarczy, że
-                    pojawisz się na treningu i dasz znać trenerowi, że chcesz spróbować. Drzwi są zawsze otwarte dla nowych osób,
-                    niezależnie od poziomu doświadczenia.
-                
-                    Jeśli masz pytania dotyczące zajęć, grafiku czy czegokolwiek innego, skontaktuj się z nami telefonicznie lub wpadnij
-                    do
-                    nas osobiście podczas treningów.
-                </p>
-            <ul class="contact-list">
-                <li class="contact-line">
-                    <span class="material-icons icon" aria-hidden="true">phone</span>
-                    <a class="btn-link" href="tel:+48600000000" aria-label="Zadzwoń: +48 600 000 000">
-                        Zadzwoń: +48&nbsp;600&nbsp;000&nbsp;000
-                    </a>
-                </li>
-                <li class="contact-line">
-                    <span class="material-icons icon" aria-hidden="true">mail</span>
-                    <a class="btn-link" href="mailto:kontakt@kbbox.pl?subject=Zapytanie%20ze%20strony"
-                        aria-label="Napisz e-mail do KB BOX">
-                        Napisz e-mail
-                    </a>
-                </li>
-                <li class="contact-line">
-                    <span class="material-icons icon" aria-hidden="true">map</span>
-                    <a class="btn-link" target="_blank" rel="noopener"
-                        href="https://www.google.com/maps/place/Szko%C5%82a+Sztuk+Walki+Fighter+Team/@49.9998607,19.9120652,18z">
-                        Fighter Team, Forteczna 51, 30-437 Kraków
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <div class="location-pane">
-            <h2 class="section-title section-title-left">Lokalizacja</h2>
-            <div class="map-16x9">
-                <iframe class="map-embed map-dark"
-                    src="https://www.google.com/maps?ll=49.9998607,19.9120652&z=18&q=Szko%C5%82a%20Sztuk%20Walki%20Fighter%20Team&output=embed"
-                    loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen
-                    aria-label="Mapa dojazdu: Szkoła Sztuk Walki Fighter Team">
-                </iframe>
-            </div>
-        </div>
-
-    </div>
-</section>
+<app-contact></app-contact>
 
 <!-- FOOTER -->
 <app-footer></app-footer>

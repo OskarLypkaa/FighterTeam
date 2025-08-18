@@ -1,14 +1,37 @@
-<header class="navbar">
-    <div class="nav-inner container">
-        <a class="logo" href="#hero" (click)="onNavClick($event, '#hero')">KB<strong style="color:var(--accent)">BOX</strong></a>
-        <nav [class.open]="mobileOpen">
-            <a href="#classes" (click)="onNavClick($event, '#classes')">Zajęcia</a>
-            <a href="#schedule" (click)="onNavClick($event, '#schedule')">Harmonogram</a>
-            <a href="#pricing" (click)="onNavClick($event, '#pricing')">Cennik</a>
-            <a href="#news" (click)="onNavClick($event, '#news')">Aktualności</a>
-            <a href="#benefits" (click)="onNavClick($event, '#benefits')">Benefity</a>
-            <a href="#coach" (click)="onNavClick($event, '#coach')">O trenerze</a>
-            <a href="#contact" (click)="onNavClick($event, '#contact')">Kontakt</a>
-        </nav>
-    </div>
+<header class="navbar" [class.open]="mobileOpen">
+  <div class="nav-inner container">
+    <a class="logo" href="#hero" (click)="onNavClick($event, '#hero')">
+      KB<strong style="color:var(--accent)">BOX</strong>
+    </a>
+
+    <!-- HAMBURGER -->
+    <button
+      class="menu-toggle"
+      type="button"
+      (click)="toggleMobile()"
+      [attr.aria-expanded]="mobileOpen"
+      aria-controls="primary-nav"
+      aria-label="Menu"
+    >
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+
+    <!-- MENU -->
+    <nav id="primary-nav" [class.open]="mobileOpen">
+      <a href="#classes" (click)="onNavClick($event, '#classes')">Zajęcia</a>
+      <a href="#schedule" (click)="onNavClick($event, '#schedule')">Harmonogram</a>
+      <a href="#pricing" (click)="onNavClick($event, '#pricing')">Cennik</a>
+      <a href="#news" (click)="onNavClick($event, '#news')">Aktualności</a>
+      <a href="#coach" (click)="onNavClick($event, '#coach')">O trenerze</a>
+      <a href="#benefits" (click)="onNavClick($event, '#benefits')">Benefity</a>
+      <a href="#contact" (click)="onNavClick($event, '#contact')">Kontakt</a>
+    </nav>
+  </div>
+
+  <!-- BACKDROP pod menu mobilne -->
+    @if (mobileOpen) {
+        <div class="nav-backdrop" (click)="toggleMobile()"></div>
+    }
 </header>

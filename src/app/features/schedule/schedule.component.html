@@ -1,1 +1,39 @@
-<p>schedule works!</p>
+<section class="section flow alt-bg" id="schedule">
+    <div class="container fade-in">
+        <h2 class="section-title">Harmonogram</h2>
+
+        <div class="table-scroll">
+            <table class="schedule-table" aria-describedby="schedule-caption">
+                <caption id="schedule-caption" class="vh">Tygodniowy harmonogram zajęć</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Dzień</th>
+                        <th scope="col">Godziny i zajęcia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (d of schedule; track d.day) {
+                    <tr>
+                        <th scope="row">{{ d.day }}</th>
+                        <td>
+                            @if (d.slots.length === 0) {
+                            <span class="muted">Brak zajęć</span>
+                            } @else {
+                            <ul class="slot-list">
+                                @for (s of d.slots; track s.time) {
+                                <li><span class="slot-time">{{ s.time }}</span> <span class="slot-name">{{ s.name
+                                        }}</span></li>
+                                }
+                            </ul>
+                            }
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <p class="note">Aby dołączyć – po prostu przyjdź na wybrane zajęcia i zgłoś się do trenera. W razie pytań:
+            telefon lub e-mail.</p>
+    </div>
+</section>

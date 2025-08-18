@@ -1,1 +1,18 @@
-<p>pricing works!</p>
+<section class="section flow alt-bg" id="pricing">
+    <div class="container fade-in">
+        <h2 class="section-title">Cennik</h2>
+        <div class="pricing-grid">
+            @for (p of pricing; track p.name) {
+            <div class="price-card {{ p.highlight ? 'highlight' : '' }}">
+                <h3 class="price-name">{{ p.name }}</h3>
+                <div class="price-value">{{ p.price }}</div>
+                <ul class="price-features">
+                    @for (f of p.features; track f) { <li>{{ f }}</li> }
+                </ul>
+                <a href="#contact" class="btn btn-outline">Dołącz</a>
+            </div>
+            }
+        </div>
+        <p class="note">* Podane zostały ceny brutto.</p>
+    </div>
+</section>

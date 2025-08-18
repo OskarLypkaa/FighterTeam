@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -24,5 +24,13 @@ export class NavbarComponent {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       this.mobileOpen = false;
     }
+  }
+
+  @HostListener('document:keydown.escape')
+  onEsc() { this.mobileOpen = false; }
+
+  @HostListener('window:resize')
+  onResize() {
+    if (window.innerWidth > 960 && this.mobileOpen) this.mobileOpen = false;
   }
 }

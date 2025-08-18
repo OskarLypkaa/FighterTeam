@@ -1,0 +1,14 @@
+<section class="section flow" id="news">
+    <div class="container fade-in">
+        <h2 class="section-title">Aktualności</h2>
+        <div class="news-list">
+            @for (n of news; track n.id) {
+            <article class="news-item">
+                <div class="news-date">{{ n.publishedAt }}</div>
+                <h3 class="news-title">{{ n.title }}</h3>
+                <p class="news-content">{{ n.content }}</p>
+            </article>
+            }
+        </div>
+    </div>
+</section>

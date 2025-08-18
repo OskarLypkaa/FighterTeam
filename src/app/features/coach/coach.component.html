@@ -1,1 +1,13 @@
-<p>coach works!</p>
+<section class="section flow alt-bg" id="coach">
+    <div class="container coach-grid fade-in">
+        <div class="coach-photo">
+            <img [src]="coach.photo" alt="Trener">
+        </div>
+        <div class="coach-info">
+            <h2 class="section-title" style="text-align:left">O trenerze</h2>
+            <h3>{{ coach.name }}</h3>
+            <p class="coach-role">{{ coach.role }}</p>
+            <p class="coach-bio">{{ coach.bio }}</p>
+        </div>
+    </div>
+</section>

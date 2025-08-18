@@ -1,1 +1,16 @@
-<p>classes works!</p>
+<section class="section flow alt-bg" id="classes">
+    <div class="container fade-in">
+        <h2 class="section-title">Rodzaje zajęć</h2>
+        <div class="grid-3">
+            @for (c of classes; track c.title) {
+            <div class="info-tile">
+                <div class="tile-icon">
+                    <span class="material-icons">{{ c.icon }}</span>
+                </div>
+                <h3 class="tile-title">{{ c.title }}</h3>
+                <p class="tile-desc">{{ c.desc }}</p>
+            </div>
+            }
+        </div>
+    </div>
+</section>
