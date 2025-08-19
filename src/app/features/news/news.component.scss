@@ -1,4 +1,4 @@
-/* Sekcja nie rozlewa się na cały ekran */
+/* Sekcja */
 .news-section {
     padding: 24px 0;
 }
@@ -13,7 +13,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 12px;
+    margin-bottom: 40px;
 
     h2 {
         margin: 0;
@@ -22,9 +22,74 @@
     }
 }
 
+.news-scroll {
+    /* większy panel */
+    max-height: clamp(440px, 65vh, 820px);
+
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+    /* brak skakania szerokości */
+    scrollbar-width: thin;
+
+    /* scroll: stała szerokość 8px, thumb zmienia tylko opacity (masz to niżej) */
+
+    /* fade: wysokość wygaszenia (możesz zmienić) */
+    --news-fade: 56px;
+
+    /* zapas, żeby ostatni wpis dało się doczytać nad fade’em */
+    padding-bottom: var(--news-fade);
+
+    /* Płynne wygaszenie treści przy dole (działa w Chrome/Edge/FF/Safari) */
+    -webkit-mask-image: linear-gradient(to bottom,
+            rgba(0, 0, 0, 1) calc(100% - var(--news-fade)),
+            rgba(0, 0, 0, 0) 100%);
+    mask-image: linear-gradient(to bottom,
+            rgba(0, 0, 0, 1) calc(100% - var(--news-fade)),
+            rgba(0, 0, 0, 0) 100%);
+}
+
+/* Firefox: stała szerokość (thin), „niewidoczny” thumb gdy nie scrollujesz */
+.news-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+    /* domyślnie „niewidoczny” */
+}
+
+.news-scroll.is-scrolling {
+    scrollbar-color: rgba(160, 160, 160, .6) transparent;
+    /* w trakcie scrolla – szary */
+}
+
+/* WebKit/Chromium: STAŁA szerokość 8px, tylko thumb zmienia opacity */
+.news-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* NIE 0! */
+.news-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.news-scroll::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    /* „ukryty” by default */
+    border-radius: 8px;
+}
+
+.news-scroll.is-scrolling::-webkit-scrollbar-thumb {
+    background-color: rgba(160, 160, 160, .6);
+    /* szary w trakcie scrolla */
+}
+
+.news-scroll::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(160, 160, 160, .75);
+}
+
+/* Lista/akordeon bez zmian */
 .accordion {
     display: grid;
-    gap: 12px;
+    gap: 20px;
 }
 
 .acc-item {
@@ -34,7 +99,7 @@
 
     &.expanded {
         transform: translateY(-1px);
-        box-shadow: 0px 50px 80px -60px rgba(255, 255, 255, 0.35);
+        box-shadow: 0px 40px 80px -60px rgba(255, 255, 255, 0.35);
     }
 }
 
@@ -118,7 +183,6 @@
 }
 
 /* --- GALERIA --- */
-/* Mobile: h-scroll (ukryty pasek) */
 .gallery-mobile {
     display: grid;
     grid-auto-flow: column;
@@ -127,7 +191,6 @@
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     padding-bottom: 4px;
-
     scrollbar-width: none;
     -ms-overflow-style: none;
 
@@ -136,7 +199,6 @@
     }
 }
 
-/* Desktop: siatka miniaturek */
 .gallery-grid {
     display: none;
 }
@@ -162,7 +224,6 @@
     transform: scale(1.02);
 }
 
-/* Desktop layout */
 @media (min-width: 768px) {
     .gallery-mobile {
         display: none;
@@ -174,14 +235,13 @@
         gap: 10px;
     }
 
-    /* 3 kolumny większe karty: 4/12 każda */
     .gallery-grid .g-item {
         grid-column: span 4;
         aspect-ratio: 16/10;
     }
 }
 
-/* --- LIGHTBOX --- */
+/* --- LIGHTBOX --- (bez zmian) */
 .lightbox {
     position: fixed;
     inset: 0;
@@ -272,7 +332,6 @@
     }
 }
 
-/* Accessibility: mniej animacji */
 @media (prefers-reduced-motion: reduce) {
 
     .g-item img,

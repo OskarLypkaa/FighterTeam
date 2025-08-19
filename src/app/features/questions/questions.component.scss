@@ -7,6 +7,20 @@
     /* potrzebne do @container */
 }
 
+img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform: scaleX(-1);
+    transform-origin: center;
+    object-fit: cover;
+    display: block;
+    z-index: 0;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
 .benefits-list {
     display: grid;
     /* poprawka: wcześniej clamp miał max < min i realnie dawał 12px */
@@ -20,17 +34,6 @@
     width: 100%;
 }
 
-.benefits-photo {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-}
-
-.benefits-photo img {
-    max-height: 500px;
-    max-width: 400px;
-    object-fit: cover;
-}
 
 .section-title.section-title--right {
     text-align: right;
@@ -44,10 +47,6 @@
         grid-template-columns: 1fr;
     }
 
-    /* bez prawej kolumny */
-    .benefits-photo {
-        display: none;
-    }
 
     .section-title.section-title--left {
         text-align: center;
@@ -67,9 +66,6 @@
         grid-template-columns: 1fr;
     }
 
-    .benefits-photo {
-        display: none;
-    }
 
     .section-title.section-title--left {
         text-align: center;
