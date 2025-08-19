@@ -9,12 +9,14 @@
             <div class="accordion">
                 @for (n of news; track n.id) {
                 <article class="acc-item" [class.expanded]="isExpanded(n.id)">
-                    <button class="acc-header" type="button" (click)="toggle(n.id)" [attr.aria-expanded]="isExpanded(n.id)"
-                        [attr.aria-controls]="'panel-' + n.id" [id]="'control-' + n.id">
+                    <button class="acc-header" type="button" (click)="toggle(n.id)"
+                        [attr.aria-expanded]="isExpanded(n.id)" [attr.aria-controls]="'panel-' + n.id"
+                        [id]="'control-' + n.id">
+
                         <div class="thumb">
                             <img [src]="thumbOf(n)" [alt]="n.title" loading="eager" (error)="imgError($event, n.id)" />
                         </div>
-                
+
                         <div class="header-text">
                             <div class="header-text-top">
                                 <h3 class="title">{{ n.title }}</h3>
@@ -22,49 +24,52 @@
                                     {{ n.publishedAt | date:'d.M.yyyy, HH:mm' }}
                                 </time>
                             </div>
-                
-                            <!-- COLLAPSED: teaser albo "Pokaż więcej…" -->
+
+                            <!-- Teaser (<=180 pełny; >180 pierwsze 180 + „… Pokaż więcej…”) -->
                             <ng-container *ngIf="!isExpanded(n.id)">
-                                <span class="desc desc--teaser" *ngIf="(n.description?.length || 0) <= maxChars; else moreHint">
+                                <span class="desc desc--teaser"
+                                    *ngIf="(n.description?.length || 0) <= maxChars; else longTeaser">
                                     {{ n.description }}
                                 </span>
-                                <ng-template #moreHint>
-                                    <!-- UWAGA: <span>, nie <p> – <p> w <button> jest niepoprawne HTML -->
-                                    <span class="more-hint">Pokaż więcej…</span>
+                                <ng-template #longTeaser>
+                                    <span class="desc desc--teaser">
+                                        {{ (n.description || '') | slice:0:maxChars }}…
+                                        <span class="more-hint">Pokaż więcej…</span>
+                                    </span>
                                 </ng-template>
                             </ng-container>
                         </div>
-                
+
                         <span class="chev" aria-hidden="true"></span>
                     </button>
-                
-                    <div class="acc-panel" [id]="'panel-' + n.id" role="region" [attr.aria-labelledby]="'control-' + n.id"
+
+                    <div class="acc-panel" [id]="'panel-' + n.id" role="region"
+                        [attr.aria-labelledby]="'control-' + n.id"
                         [style.maxHeight]="isExpanded(n.id) ? '2000px' : '0px'">
-                        <div class="panel-inner" *ngIf="isExpanded(n.id)">
-                            <p class="desc">{{ n.description }}</p>
-                
-                            <!-- Galerie tylko w stanie rozwiniętym -->
+                        <div class="panel-inner">
+                            <p class="desc desc--full">{{ n.description }}</p>
+
+                            <!-- Galerie (pokazujemy tylko w stanie .expanded via CSS display) -->
                             <div class="gallery-mobile">
                                 @for (img of n.images; let i = $index; track i) {
                                 <figure class="g-item">
-                                    <img [src]="img" [alt]="n.title + ' — zdjęcie ' + (i+1)" loading="lazy" (click)="openLightbox(n, i)"
-                                        (error)="imgError($event, n.id)" />
+                                    <img [src]="img" [alt]="n.title + ' — zdjęcie ' + (i+1)" loading="lazy"
+                                        (click)="openLightbox(n, i)" (error)="imgError($event, n.id)" />
                                 </figure>
                                 }
                             </div>
-                
+
                             <div class="gallery-grid">
                                 @for (img of n.images; let i = $index; track i) {
                                 <figure class="g-item">
-                                    <img [src]="img" [alt]="n.title + ' — zdjęcie ' + (i+1)" loading="lazy" (click)="openLightbox(n, i)"
-                                        (error)="imgError($event, n.id)" />
+                                    <img [src]="img" [alt]="n.title + ' — zdjęcie ' + (i+1)" loading="lazy"
+                                        (click)="openLightbox(n, i)" (error)="imgError($event, n.id)" />
                                 </figure>
                                 }
                             </div>
                         </div>
                     </div>
                 </article>
-
                 }
             </div>
         </div>
@@ -82,16 +87,13 @@
     <div class="lightbox" role="dialog" aria-modal="true" [attr.aria-label]="lbTitle" (click)="closeLightbox()">
         <button class="lb-close" type="button" aria-label="Zamknij"
             (click)="closeLightbox(); $event.stopPropagation()">×</button>
-
         <button class="lb-nav prev" type="button" aria-label="Poprzednie zdjęcie"
             (click)="prev(); $event.stopPropagation()" [disabled]="lbImages.length <= 1">‹</button>
 
         <figure class="lb-media" (click)="$event.stopPropagation()">
             <img [src]="lbImages[lbIndex]" [alt]="lbTitle + ' — powiększone zdjęcie'"
                 (error)="imgError($event, 9999)" />
-            <figcaption class="lb-caption">
-                {{ lbTitle }} — {{ lbIndex + 1 }}/{{ lbImages.length }}
-            </figcaption>
+            <figcaption class="lb-caption">{{ lbTitle }} — {{ lbIndex + 1 }}/{{ lbImages.length }}</figcaption>
         </figure>
 
         <button class="lb-nav next" type="button" aria-label="Następne zdjęcie"

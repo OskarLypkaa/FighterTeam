@@ -1,12 +1,17 @@
-/* Sekcja */
-.news-section {
-  padding: 24px 0;
+/* ====== USTAWIENIA ANIMACJI ====== */
+:host {
+  --acc-dur: .28s;
+  /* otwieranie/zamykanie */
+  --fade-dur: .20s;
+  /* przenikania/małe ruchy */
+  --ease: cubic-bezier(.22, .61, .36, 1);
 }
 
+
 .container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin-inline: auto;
-  padding-inline: 16px;
+
 }
 
 .header {
@@ -22,71 +27,65 @@
   }
 }
 
+/* ====== SCROLL ====== */
 .news-scroll {
-  /* większy panel */
   max-height: clamp(440px, 65vh, 820px);
-
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-gutter: stable;
-  /* brak skakania szerokości */
   scrollbar-width: thin;
 
-  /* scroll: stała szerokość 8px, thumb zmienia tylko opacity (masz to niżej) */
-
-  /* fade: wysokość wygaszenia (możesz zmienić) */
   --news-fade: 56px;
-
-  /* zapas, żeby ostatni wpis dało się doczytać nad fade’em */
   padding-bottom: var(--news-fade);
 
-  /* Płynne wygaszenie treści przy dole (działa w Chrome/Edge/FF/Safari) */
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 1) calc(100% - var(--news-fade)),
-    rgba(0, 0, 0, 0) 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 1) calc(100% - var(--news-fade)),
-    rgba(0, 0, 0, 0) 100%
-  );
+  -webkit-mask-image: linear-gradient(to bottom,
+      rgba(0, 0, 0, 1) calc(100% - var(--news-fade)),
+      rgba(0, 0, 0, 0) 100%);
+  mask-image: linear-gradient(to bottom,
+      rgba(0, 0, 0, 1) calc(100% - var(--news-fade)),
+      rgba(0, 0, 0, 0) 100%);
+
+  -webkit-mask-image: linear-gradient(to top,
+        rgba(0, 0, 0, 1) calc(100% - var(--news-fade)),
+        rgba(0, 0, 0, 0) 100%);
+    mask-image: linear-gradient(to top,
+        rgba(0, 0, 0, 1) calc(100% - var(--news-fade)),
+        rgba(0, 0, 0, 0) 100%);
 }
 
-/* Firefox: stała szerokość (thin), „niewidoczny” thumb gdy nie scrollujesz */
+/* Firefox scrollbar */
 .news-scroll {
   scrollbar-width: thin;
-  scrollbar-color: transparent transparent; /* domyślnie „niewidoczny” */
+  scrollbar-color: transparent transparent;
 }
 
 .news-scroll.is-scrolling {
-  scrollbar-color: rgba(160, 160, 160, 0.6) transparent; /* w trakcie scrolla – szary */
+  scrollbar-color: rgba(160, 160, 160, 0.6) transparent;
 }
 
-/* WebKit/Chromium: STAŁA szerokość 8px, tylko thumb zmienia opacity */
+/* WebKit scrollbar */
 .news-scroll::-webkit-scrollbar {
   width: 8px;
 }
 
-/* NIE 0! */
 .news-scroll::-webkit-scrollbar-track {
   background: transparent;
 }
 
 .news-scroll::-webkit-scrollbar-thumb {
-  background-color: transparent; /* „ukryty” by default */
+  background-color: transparent;
   border-radius: 8px;
 }
 
 .news-scroll.is-scrolling::-webkit-scrollbar-thumb {
-  background-color: rgba(160, 160, 160, 0.6); /* szary w trakcie scrolla */
+  background-color: rgba(160, 160, 160, 0.6);
 }
 
 .news-scroll::-webkit-scrollbar-thumb:hover {
   background-color: rgba(160, 160, 160, 0.75);
 }
 
-/* Lista/akordeon bez zmian */
+/* ====== LISTA/AKORDEON ====== */
 .accordion {
   display: grid;
   gap: 20px;
@@ -95,7 +94,7 @@
 .acc-item {
   border-radius: 12px;
   overflow: hidden;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  transition: box-shadow .2s var(--ease), transform .2s var(--ease);
 
   &.expanded {
     transform: translateY(-1px);
@@ -103,11 +102,12 @@
   }
 }
 
+/* ====== HEADER (przycisk) ====== */
 .acc-header {
   width: 100%;
   display: grid;
   grid-template-columns: 120px 1fr 18px;
-  gap: 12px;
+  padding-right: 6px;
   align-items: center;
   padding: 12px 16px;
   border: 0;
@@ -115,84 +115,81 @@
   background: transparent;
   cursor: pointer;
 
+  /* animowane zwężanie kolumny z miniaturą */
+  transition: grid-template-columns var(--acc-dur) var(--ease), color .2s var(--ease);
+
   .thumb {
     width: 100%;
     aspect-ratio: 16/9;
     border-radius: 10px;
+
     overflow: hidden;
+    /* znikanie miniaturki */
+    transition: opacity var(--acc-dur) var(--ease), transform var(--acc-dur) var(--ease);
+    will-change: opacity, transform;
 
     img {
-      width: 100%;
-      height: 100%;
+      width: 90%;
+      height: 90%;
       object-fit: cover;
       display: block;
+
     }
   }
 
-    .header-text {
-      text-align: left;
-    }
-  
-    .header-text-top {
-      display: flex;
-      align-items: baseline;
-      /* ładnie wyrówna h3 i time po linii bazowej */
-      justify-content: space-between;
-      gap: 12px;
-    }
-  
-    .header-text-top .title {
-      margin: 0;
-      font-weight: 800;
-      font-size: 1.3rem;
-      line-height: 1.2;
-      color: #fff;
-      min-width: 0;
-      /* umożliwia elipsę */
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  
-    .header-text-top .date {
-      font-size: .8rem;
-      color: var(--muted, #a9a9a9);
-      white-space: nowrap;
-      margin-left: 12px;
-      /* mały odstęp od tytułu */
-    }
-    /* Teaser w headerze (gdy <= maxChars) */
-    .header-text .desc--teaser {
-      display: block;
-      margin-top: 4px;
-      color: var(--muted, #c0c0c0);
-      line-height: 1.4;
-    }
-  
-    /* Zamiast opisu przy > maxChars */
-    .header-text .more-hint {
-      display: inline-block;
-      margin-top: 4px;
-      text-decoration: underline;
-      color: var(--muted, #a9a9a9);
-      user-select: none;
-    }
-  
-    /* Strzałka obraca się po aria-expanded na przycisku */
-    .acc-header .chev {
-      transition: transform .25s ease;
-      transform: rotate(-45deg);
-    }
-  
-    .acc-header[aria-expanded="true"] .chev {
-      transform: rotate(45deg) scale(1.05);
-    }
-  
-    /* Panel faktycznie ukryty gdy zwinięty */
-    .acc-panel {
-      overflow: hidden;
-      transition: max-height .25s ease;
-    }
+  .header-text {
+    text-align: left;
+  }
+
+  .header-text-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+
+  }
+
+  .header-text-top .title {
+    margin: 0;
+    font-weight: 800;
+    font-size: 1.3rem;
+    line-height: 1.2;
+    color: #fff;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .header-text-top .date {
+    font-size: .8rem;
+    color: var(--muted, #a9a9a9);
+    white-space: nowrap;
+    margin-right: 24px;
+  }
+
+  /* teaser (<=180 albo 180+… + hint) */
+  .desc--teaser {
+    display: block;
+    margin-top: 4px;
+    color: var(--muted, #c0c0c0);
+    line-height: 1.4;
+
+    /* animowane wygaszenie i „zsunięcie” przy rozwijaniu */
+    transition: opacity var(--fade-dur) var(--ease),
+      transform var(--fade-dur) var(--ease),
+      max-height var(--acc-dur) var(--ease),
+      margin-top var(--acc-dur) var(--ease);
+    max-height: 80px;
+    /* bezpieczna wysokość dla 2–3 linii */
+    will-change: opacity, transform, max-height, margin-top;
+  }
+
+  .more-hint {
+    margin-left: 6px;
+    text-decoration: underline;
+    color: var(--muted, #a9a9a9);
+    user-select: none;
+  }
 
   .chev {
     width: 18px;
@@ -201,18 +198,39 @@
     border-right: 2px solid currentColor;
     border-bottom: 2px solid currentColor;
     transform: rotate(-45deg);
-    transition: transform 0.25s ease;
+    transition: transform var(--acc-dur) var(--ease);
   }
 
-  /* poprawka: aria-expanded jest na .acc-header */
-  &[aria-expanded="true"] .chev {
-    transform: rotate(45deg) scale(1.05);
+  /* STAN ROZWINIĘTY – animacje */
+  &[aria-expanded="true"] {
+    grid-template-columns: 0px 1fr 18px;
+    /* kolumna miniatury do zera */
+
+    .thumb {
+      opacity: 0;
+      transform: scale(.96);
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    .desc--teaser {
+      opacity: 0;
+      transform: translateY(6px);
+      max-height: 0;
+      margin-top: 0;
+      pointer-events: none;
+    }
+
+    .chev {
+      transform: rotate(45deg) scale(1.05);
+    }
   }
 }
 
+/* ====== PANEL (rozwijana część) ====== */
 .acc-panel {
   overflow: hidden;
-  transition: max-height 0.25s ease;
+  transition: max-height var(--acc-dur) var(--ease);
   position: relative;
 
   @media (prefers-reduced-motion: reduce) {
@@ -224,40 +242,33 @@
     gap: 12px;
     padding: 0 16px 16px;
     position: relative;
+
+    /* wejście pełnego opisu i galerii */
+    opacity: 0;
+    transform: translateY(-6px);
+    transition: opacity var(--fade-dur) var(--ease), transform var(--fade-dur) var(--ease);
+    will-change: opacity, transform;
   }
 
-  .desc {
+  .desc--full {
+    gap: 12px;
     margin: 0;
     color: var(--muted, #c0c0c0);
+    line-height: 1.5;
   }
 }
 
-/* --- PODGLĄD (stan zwinięty) --- */
-.acc-item:not(.expanded) .desc {
-  display: -webkit-box;
-  -webkit-line-clamp: 2; /* liczba linii */
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* “Pokaż więcej…” jako lekki link */
-.more-btn {
-  justify-self: start;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: inherit;
-  text-decoration: underline;
-  cursor: pointer;
-  font: inherit;
-  line-height: 1.3;
-
-  &:hover {
-    text-decoration-thickness: 2px;
+/* kiedy item ma klasę .expanded – włącz widoczność panelu */
+.acc-item.expanded {
+  .acc-panel .panel-inner {
+    opacity: 1;
+    transform: none;
+    transition-delay: .05s;
+    /* lekko po teaserze, wrażenie „przeniesienia” */
   }
 }
 
-/* w stanie zwiniętym ukryj galerie, żeby nie tworzyły zbędnej wysokości */
+/* Galerie – domyślnie ukryte w stanie zwiniętym (HTML nie usuwa ich z DOM, więc animacje działają) */
 .acc-item:not(.expanded) .gallery-mobile,
 .acc-item:not(.expanded) .gallery-grid {
   display: none !important;
@@ -297,7 +308,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.25s ease, filter 0.15s ease;
+  transition: transform 0.25s var(--ease), filter 0.15s var(--ease);
   cursor: zoom-in;
 }
 
@@ -322,7 +333,7 @@
   }
 }
 
-/* --- LIGHTBOX --- (bez zmian) */
+/* --- LIGHTBOX --- (bez zmian funkcjonalnych) */
 .lightbox {
   position: fixed;
   inset: 0;
@@ -333,7 +344,7 @@
   grid-template-rows: 1fr;
   align-items: center;
   justify-items: center;
-  animation: lb-fade 0.12s ease;
+  animation: lb-fade 0.12s var(--ease);
 
   .lb-media {
     margin: 0;
@@ -414,13 +425,19 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .g-item img,
-  .lightbox {
+  .lightbox,
+  .acc-header .thumb,
+  .acc-panel,
+  .acc-panel .panel-inner,
+  .acc-header .desc--teaser {
     animation: none !important;
     transition: none !important;
   }
 }
 
+/* States */
 .state {
   padding: 14px 16px;
   border-radius: 12px;

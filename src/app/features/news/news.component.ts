@@ -15,6 +15,8 @@ export class NewsComponent implements OnInit {
   protected loading = true;
   protected error = false;
 
+  protected maxChars = 60; // teaser limit
+
   private expanded = new Set<number>();
 
   // Scrollbar auto-show
@@ -27,12 +29,9 @@ export class NewsComponent implements OnInit {
   protected lbIndex = 0;
   protected lbTitle = '';
 
-  // For description
-  protected maxChars = 180;
   private readonly svc = inject(NewsService);
 
   ngOnInit(): void {
-    // Wszystkie aktualności (nie tylko 3)
     this.svc.getAll().subscribe({
       next: data => { this.news = data; this.loading = false; },
       error: () => { this.error = true; this.loading = false; }
@@ -43,8 +42,9 @@ export class NewsComponent implements OnInit {
   isExpanded(id: number): boolean { return this.expanded.has(id); }
 
   toggle(id: number): void {
-    this.expanded.has(id) ? this.expanded.delete(id) : this.expanded.add(id);
-    this.expanded = new Set(this.expanded);
+    if (this.expanded.has(id)) this.expanded.delete(id);
+    else this.expanded.add(id);
+    this.expanded = new Set(this.expanded); // trigger change detection for OnPush if used
   }
 
   // === Scrollbar show/hide ===

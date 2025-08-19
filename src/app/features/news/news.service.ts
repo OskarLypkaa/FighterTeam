@@ -5,40 +5,87 @@ import { NewsItem } from './news.model';
 
 @Injectable({ providedIn: 'root' })
 export class NewsService {
+    /** LOKALNE ZDJĘCIA: assets/images/mocked/1.jpg ... 20.jpg */
+    private readonly MOCK_PATH = 'assets/images/mocked';
+    private readonly MOCK_COUNT = 20;     // <— masz 1..20
+    private readonly MOCK_EXT = 'jpg';  // zmień jeśli masz .webp/.png
+
     getAll(): Observable<NewsItem[]> {
         const now = Date.now();
-        const mk = (id: number, hoursAgo: number, title: string, description: string, imgCount = 5): NewsItem => ({
+
+        const mk = (
+            id: number,
+            hoursAgo: number,
+            title: string,
+            description: string,
+            imgCount = 5
+        ): NewsItem => ({
             id,
             title,
             description,
             publishedAt: new Date(now - hoursAgo * 3_600_000),
-            images: this.imagesSet(id, imgCount),
+            images: this.imagesSet(id, imgCount), // wyłącznie lokalne assets
         });
 
         const mock: NewsItem[] = [
-            mk(701, 1, 'Nowa grupa początkująca od poniedziałku', 'Start o 18:00 – wpadasz, prdcasdscaasazedstawiaszprdcasdscaasazedstawiaszprdcasdscaasazedstawiaszprdcasdscaasazedstawiaszprdcasdscaasazedstawiaszprdcasdscaasazedstawiaszprdcasdscaasazedstawiasz się trenerowi i jedziesz.', 6),
-            mk(702, 26, 'Sobotni open gym', 'Luźna sala 10:00–12:00. Worki, tarcze, mobilizacja.', 4),
-            mk(703, 72, 'Sparingi dla zaawansowanych', 'Środa 19:30. Kaski obowiązkowe. Tempo kontrolowane.', 5),
-            mk(704, 120, 'Nowe rękawice w sklepie klubowym', 'Dostawa 12oz i 14oz. Cztery kolory, limitowana seria.', 3),
+            mk(901, 2, 'Gala Sparingowa – edycja letnia',
+                `Wejście na ring dla wszystkich zaawansowanych: 3×2 min, kontrolowane tempo, sędziowanie szkoleniowe.
+Ważenie od 18:00, odprawa bezpieczeństwa 18:30, pierwsze wywołania 19:00. Obowiązkowe: kask, ochraniacz na zęby,
+koszulka klubowa. Gośćmi będą trenerzy z partnerskich klubów – po rundach wspólne omówienie i analiza nagrań.
+Liczba miejsc ograniczona – zapisy w recepcji do piątku.`, 6),
 
-            mk(705, 3, 'Trening techniczny – praca na nogach', 'Zejścia z linii, kąty, balans. Zabierz skakankę.', 4),
-            mk(706, 5, 'Poranna grupa – interwały', 'Krótkie, intensywne rundy na worku + tarcze. 06:45–07:45.', 3),
-            mk(707, 9, 'Nowy plan rozpisek na wrzesień', 'Więcej terminów dla początkujących i dodatkowy open gym.', 2),
-            mk(708, 14, 'Trening tarczowy 1:1 – zapisy', 'Indywidualne rundy z trenerem. Limit miejsc – rezerwacja na recepcji.', 3),
-            mk(709, 20, 'Czwartek: core & mobility', 'Stabilizacja, zakresy i prewencja urazów. 30 min po głównej jednostce.', 3),
-            mk(710, 30, 'Sparingowe piątki — zasady', 'Lekko, technicznie, w kaskach. Parujemy pod poziom i wagę.', 2),
-            mk(711, 48, 'Dostawa sprzętu', 'Owijki 4 m, ochraniacze na zęby i piszczele – nowe rozmiary.', 3),
-            mk(712, 60, 'Weekendowy miniobóz — zapisy', 'Dwie jednostki dziennie + teoria. Nocleg we własnym zakresie.', 5),
-            mk(713, 90, 'Dzień otwarty', 'Przyprowadź znajomego – pierwsze wejście gratis. Intro do boksu.', 4),
-            mk(714, 140, 'Wymiana mat na sali', 'Krótka przerwa techniczna — wieczorne treningi bez zmian.', 2),
-            mk(715, 200, 'Nowe godziny otwarcia', 'Klub czynny od 7:00 do 22:00 w dni powszednie.', 3),
-            mk(716, 260, 'Wideo-analiza walk', 'Omówienie nagrań i błędów – weź zeszyt na notatki.', 3),
-            mk(717, 320, 'Fizjoterapeuta na miejscu', 'Konsultacje po treningu — zapisy w recepcji.', 2),
-            mk(718, 380, 'Galeria zdjęć klubowych', 'Nowe foty z treningów i sparingów dostępne online.', 6),
-            mk(719, 440, 'Ankieta dla klubowiczów', 'Daj znać, jakie godziny i formaty treningów Ci pasują.', 2),
-            mk(720, 500, 'Grupa dzieci — start zapisów', 'Zajęcia ogólnorozwojowe z elementami boksu. 8–12 lat.', 4),
+            mk(902, 6, 'Seminarium Muay Thai z trenerem z Bangkoku',
+                `Intensywne 3 godziny: praca w klinczu, łokcie z wejścia, low-kick w kontrze oraz schematy kombinacji
+pod sędziowanie IFMA. Część I – technika i zadania na tarczy, Część II – gry zadaniowe i lekkie sparingi.
+Wymagane: nagolenniki, łokcie na miękko, rękawice 14–16 oz. Po seminarium Q&A i wspólne zdjęcia.`, 5),
+
+            mk(903, 12, 'Turniej BJJ (No-Gi) – białe i niebieskie pasy',
+                `Formuła IBJJF, kategorie do 76 / 82 / 88 / 94 / 100+ kg, czas walk 5 min. Parter od startu, bez dźwigni
+na kręgosłup; heel hook niedozwolony w tych dywizjach. Rejestracja do środy 23:59. Dla zwycięzców: vouchery
+na sprzęt i darmowe wejściówki na obóz techniczny.`, 4),
+
+            mk(904, 20, 'Obóz techniczny – boks i footwork',
+                `Cztery jednostki dziennie: poranny bieg i mobilność, technika bokserska (wejście/wyjście z dystansu,
+kąty ataku, balans), popołudniowe gry zadaniowe i wieczorna analiza wideo. Grupy według stażu, kamera na ringu
+aktywnie pracuje – każdy dostaje feedback z nagrań.`, 5),
+
+            mk(905, 28, 'Gościnny trener: zapasy pod MMA',
+                `Pozycje przy siatce, zejścia single/double leg z setupem z jab-cross, kontrola w półgardzie i ground-and-pound
+na tarczy. Zajęcia w kaskach i z rękawicami 7–10 oz na chwyt. Ostatnie 30 minut – scenariusze 50/50 przy siatce.`, 4),
+
+            mk(906, 36, 'Wieczór otwarty – wprowadzenie do boksu',
+                `Trening dla nowych osób: garda, poruszanie, podstawowe ciosy prosto oraz proste tarczowanie.
+Na koniec krótka sesja na worku (interwał 6×30/30). Sprzęt dostępny na miejscu, obowiązkowo ręcznik i woda.`, 3),
+
+            mk(907, 48, 'Sparing Drill Night – MMA',
+                `Rundy 5×3 min, każda z konkretnym celem: 1) jab + zejście w biodra, 2) kontrola przy siatce,
+3) wyjścia spod dosiadu, 4) half-guard przepychanie, 5) open mat. Tempo: techniczne 60–70%.
+Ochraniacze obowiązkowe.`, 5),
+
+            mk(908, 60, 'Warsztat tarczowania – jak prowadzić rundę',
+                `Dla asystentów i osób chcących lepiej trzymać tarcze: rytm, komendy, bezpieczeństwo i progresje.
+Przechodzimy od pojedynczych ciosów do akcentów, dołączamy pracę nóg i zejścia z linii, kończymy stretch/mobility.`, 3),
+
+            mk(909, 80, 'Test sprawności – wejścia do grupy zaawansowanej',
+                `Beep test, skakanka 3×3, combo techniczne na tarczy, 2×2 min zadaniowego sparingu i krótki test wiedzy taktycznej.
+Wyniki publikujemy indywidualnie do 48 h.`, 3),
+
+            mk(910, 120, 'Gościnne rundy – zaprzyjaźnione kluby',
+                `Otwarte sparingi międzyklubowe w boksie i K-1. Ringi 2, maty 2 – rotacja co 2 minuty, lżejsze tempo.
+Parowanie po poziomie i wadze. Prosimy o koszulki klubowe dla łatwiejszej organizacji.`, 6),
+
+            mk(911, 160, 'Mini-liga początkujących (boks)',
+                `Cykl 3 spotkań w miesiącu – punkty za aktywność, balans i czystość ciosów. Sędziowanie szkoleniowe,
+feedback po każdej rundzie. Nagrody techniczne: „najlepsza garda”, „najlepsza praca nóg”.`, 4),
+
+            mk(912, 220, 'Seminarium: low-kick w praktyce K-1',
+                `Ustawienie biodra, ścięcie zewnętrzne i wewnętrzne, praca na twardej tarczy, kontrataki po blokach.
+Do tego kontrola dystansu na półdystansie i praca na rękawicy trenera.`, 4),
+
+            mk(913, 300, 'Open mat / Open gym – weekend',
+                `Luźna sala: runda na worku, tarcze, technika w parach, mobilność. Trener dyżurny do dyspozycji.
+Dobre miejsce na nadrobienie jednostek z planu.`, 3),
         ];
-
 
         return of(mock).pipe(
             delay(120),
@@ -50,9 +97,40 @@ export class NewsService {
         return this.getAll().pipe(map(items => items.slice(0, limit)));
     }
 
-    /** Stabilne, proste źródło obrazów bez CORB/302. */
+    /** Deterministyczny „losowy” wybór z 1..MOCK_COUNT, żeby UI nie migało przy każdym renderze. */
     private imagesSet(seed: number, count: number): string[] {
         const n = Math.max(1, count);
-        return Array.from({ length: n }, (_, i) => `https://picsum.photos/seed/${seed + i}/1200/800`);
+        const total = Math.max(1, this.MOCK_COUNT);
+
+        // szybki PRNG z seedem (mulberry32)
+        const rnd = this.mulberry32(seed);
+
+        const picked: number[] = [];
+        const used = new Set<number>();
+
+        // Unikalne dopóki mamy pulę, potem ewentualnie dublujemy
+        while (picked.length < n && used.size < total) {
+            const idx = (Math.floor(rnd() * total) + 1); // 1..total
+            if (!used.has(idx)) {
+                used.add(idx);
+                picked.push(idx);
+            }
+        }
+        while (picked.length < n) {
+            const idx = (Math.floor(rnd() * total) + 1);
+            picked.push(idx);
+        }
+
+        return picked.map(i => `${this.MOCK_PATH}/${i}.${this.MOCK_EXT}`);
+    }
+
+    /** Mulberry32 – szybki RNG z seedem */
+    private mulberry32(a: number) {
+        return function () {
+            let t = (a += 0x6D2B79F5);
+            t = Math.imul(t ^ (t >>> 15), t | 1);
+            t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+            return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
     }
 }
