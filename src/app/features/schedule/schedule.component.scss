@@ -1,13 +1,19 @@
 :host {
     display: block;
-    
 }
 
-/* Paleta (jak na screenie: ciemne tło, jasny tekst, akcent malinowy) */
+/* ---------- wrapper: centrum + szerokość ---------- */
+.schedule-wrap {
+    max-width: 1200px;
+    /* zmień np. na 1024/960 jeśli chcesz wężej */
+    width: min(100%, 1200px);
+    margin: 0 auto;
+}
+
+/* ---------- paleta (ciemny motyw) ---------- */
 .theme-dark {
     --accent: #ff3b6a;
     --panel: #17181b;
-    --panel-2: #101114;
     --panel-border: #2b2f36;
     --text: #e5e7eb;
     --muted: #9ca3af;
@@ -15,14 +21,34 @@
     --grid-60: rgba(255, 255, 255, .18);
 }
 
-/* Lewa kolumna godzin */
-$s-side-col: 80px;
+/* tytuł sekcji */
+.section-title {
+    text-align: center;
+    color: var(--text, #e5e7eb);
+    font-size: clamp(24px, 2.2vw, 34px);
+    font-weight: 800;
+    margin: 12px 0 8px;
+}
+
+/* ---------- układ grafiku ---------- */
+$s-side-col: 96px;
+/* lewa kolumna z godzinami */
 
 .schedule {
     color: var(--text);
+    position: relative;
     display: grid;
     grid-template-columns: $s-side-col 1fr;
     grid-template-rows: 48px 1fr;
+
+    overflow: hidden;
+
+    background:
+            linear-gradient(to bottom, rgba(0, 0, 0, .0), rgba(0, 0, 0, .0)),
+            var(--schedule-bg);
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
+    background-size: 100% 100%, contain;
 }
 
 /* Header (dni tygodnia) */
@@ -31,7 +57,7 @@ $s-side-col: 80px;
     display: grid;
     grid-template-columns: $s-side-col repeat(7, 1fr);
     align-items: center;
-    border-bottom: 1px solid var(--panel-border);
+    
 
     .corner {
         height: 100%;
@@ -39,11 +65,13 @@ $s-side-col: 80px;
 
     .day-head {
         text-align: center;
-        font-weight: 700;
-        font-size: clamp(18px, 1.1rem + 0.25vw, 22px);
+        font-weight: 800;
+        font-size: clamp(16px, 1.1rem + 0.1vw, 20px);
         letter-spacing: .2px;
         position: relative;
         color: var(--text);
+        padding-top: 6px;
+        padding-bottom: 10px;
 
         &::after {
             content: '';
@@ -51,9 +79,11 @@ $s-side-col: 80px;
             left: 50%;
             transform: translateX(-50%);
             bottom: 6px;
-            width: 28px;
+            width: 40px;
             height: 3px;
-            opacity: .7;
+
+            background: var(--accent);
+            opacity: .75;
         }
     }
 }
@@ -65,32 +95,25 @@ $s-side-col: 80px;
     grid-template-columns: $s-side-col 1fr;
 }
 
-/* Godziny + siatka (jasne linie na ciemnym) */
+/* Godziny + siatka */
 .times {
     position: relative;
-    border-right: 1px solid var(--panel-border);
+    text-align: right;
+    padding-right: 10px;
+    padding-top: 4px;
     color: var(--muted);
 
     &::before {
         content: '';
         position: absolute;
         inset: 0;
-        background:
-            /* cienkie linie co 15 min */
-            repeating-linear-gradient(to bottom,
-                var(--grid-15), var(--grid-15) 1px,
-                transparent 1px, transparent var(--slot-px, 24px)),
-            /* grubsza co 60 min */
-            repeating-linear-gradient(to bottom,
-                transparent, transparent calc(var(--slot-px, 24px) * 4 - 1px),
-                var(--grid-60) calc(var(--slot-px, 24px) * 4 - 1px),
-                var(--grid-60) calc(var(--slot-px, 24px) * 4));
         pointer-events: none;
     }
 
     .hour {
         height: calc(var(--slot-px, 24px) * 4);
-        padding: 6px 8px 0 12px;
+        padding: 0px 0px 0px 30px;
+        font-size: 12px;
     }
 }
 
@@ -98,73 +121,132 @@ $s-side-col: 80px;
 .days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 12px;
-    padding: 8px 12px 12px;
+
+    
 }
 
-/* Karta dnia (wyraźny panel na ciemnym tle) */
+/* Karta dnia: ciemny panel + siatka w tle */
 .day-column {
     position: relative;
-    border: 1px solid var(--panel-border);
-    border-radius: 12px;
-    background-color: var(--panel);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, .04) inset;
     overflow: hidden;
 
-    /* siatka w tle – jasna na ciemnym */
+    /* ZOSTAWIAMY tylko grubsze linie (co 4 sloty) jako pełne */
     background-image:
         repeating-linear-gradient(to bottom,
-            var(--grid-15), var(--grid-15) 1px,
-            transparent 1px, transparent var(--slot-px, 24px)),
-        repeating-linear-gradient(to bottom,
-            transparent, transparent calc(var(--slot-px, 24px) * 4 - 1px),
+            transparent,
+            transparent calc(var(--slot-px, 24px) * 4 - 1px),
             var(--grid-60) calc(var(--slot-px, 24px) * 4 - 1px),
             var(--grid-60) calc(var(--slot-px, 24px) * 4));
     background-blend-mode: lighten;
-    box-shadow: 0 1px 0 rgba(255, 255, 255, .04) inset;
 }
 
-/* Event – wysoki kontrast, pasek akcentu z lewej */
+/* Cienkie linie – osobna warstwa, docięta maską do przerywanych */
+.day-column::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+
+    /* cienkie linie co slot – 1px wysokości */
+    background-image: repeating-linear-gradient(to bottom,
+            var(--grid-15), var(--grid-15) 1px,
+            transparent 1px, transparent var(--slot-px, 24px));
+    background-blend-mode: lighten;
+
+    /* parametry kreski przerywanej */
+    --dash: 12px;
+    /* długość kreski */
+    --gap: 8px;
+    /* przerwa między kreskami */
+
+    /* maska tnąca w poziomie na „kreska–przerwa” */
+    -webkit-mask-image: repeating-linear-gradient(to right,
+            #000 0 var(--dash),
+            transparent var(--dash) calc(var(--dash) + var(--gap)));
+    mask-image: repeating-linear-gradient(to right,
+            #000 0 var(--dash),
+            transparent var(--dash) calc(var(--dash) + var(--gap)));
+}
+/* Event */
+/* EVENT – minimal */
 .event {
     position: absolute;
     inset-inline: 6px;
     box-sizing: border-box;
-    padding: 6px 8px 6px 12px;
-    border: 1px solid rgba(255, 255, 255, .12);
-    border-radius: 10px;
-    color: #f8fafc;
-    /* jasny tekst na ciemnym */
 
-    /* tło – fallback + nowoczesny color-mix */
-    background: rgba(255, 255, 255, .06);
-    background: color-mix(in srgb, var(--ev, var(--accent)) 22%, #0f1012 78%);
+    /* kompaktowo, czytelnie */
+    padding: 6px 10px;
+    min-height: 26px;
+    border-radius: 8px;
 
-    /* cienka poświata */
-    box-shadow:
-        0 1px 2px rgba(0, 0, 0, .5),
-        0 0 0 1px rgba(255, 255, 255, .04) inset;
+    /* subtelny panel + cienka ramka */
+    background: rgba(0, 0, 0, 0.315);
+    border: 1px solid var(--panel-border);
 
-    /* pasek akcentu */
-    &::before {
-        content: '';
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        width: 4px;
-        border-top-left-radius: 10px;
-        border-bottom-left-radius: 10px;
-        background: var(--ev, var(--accent));
-        opacity: .9;
+    /* wąski akcent po lewej (prosto i czytelnie) */
+    border-left: 2px solid #ff3b6a;
+
+    /* brak cieni = czysto */
+    box-shadow: none;
+    color: var(--text);
+    z-index: 1;
+}
+
+/* typografia – bez krzyku */
+.event .title {
+    font-size: 12.5px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-right: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.event .time {
+    font-size: 11.5px;
+    color: var(--muted);
+    white-space: nowrap;
+}
+
+/* delikatne stany – nadal minimalistycznie */
+.event:hover {
+    background: rgba(255, 255, 255, .04);
+    border-color: rgba(255, 255, 255, .14);
+}
+
+.event:focus-visible {
+    outline: 2px solid var(--ev, var(--accent));
+    outline-offset: 1px;
+}
+
+.event.is-selected {
+    border-color: var(--ev, var(--accent));
+}
+
+/* zagęszczenie, gdy slot niski */
+.event--dense {
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+/* ---------- responsywność ---------- */
+@media (max-width: 1024px) {
+    .schedule-wrap {
+        padding: 16px;
     }
 
-    .title {
-        font-size: 12.5px;
-        font-weight: 800;
-        line-height: 1.15;
+    .days {
+        gap: 8px;
+        padding: 8px;
     }
+}
 
-    .time {
-        font-size: 11.5px;
-        color: #cbd5e1;
+@media (max-width: 768px) {
+    $s-side-col: 80px;
+
+    .day-head::after {
+        display: none;
     }
 }

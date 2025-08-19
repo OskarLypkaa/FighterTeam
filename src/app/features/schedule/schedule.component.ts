@@ -37,13 +37,13 @@ export class ScheduleComponent implements OnInit {
 
   // Dni tygodnia (Pon–Nd)
   readonly days = [
-    { index: 0 as DayIdx, label: 'Pon' },
-    { index: 1 as DayIdx, label: 'Wt' },
-    { index: 2 as DayIdx, label: 'Śr' },
-    { index: 3 as DayIdx, label: 'Czw' },
-    { index: 4 as DayIdx, label: 'Pt' },
-    { index: 5 as DayIdx, label: 'Sob' },
-    { index: 6 as DayIdx, label: 'Nd' },
+    { index: 0 as DayIdx, label: 'Poniedziałek' },
+    { index: 1 as DayIdx, label: 'Wtorek' },
+    { index: 2 as DayIdx, label: 'Środa' },
+    { index: 3 as DayIdx, label: 'Czwartek' },
+    { index: 4 as DayIdx, label: 'Piątek' },
+    { index: 5 as DayIdx, label: 'Sobota' },
+    { index: 6 as DayIdx, label: 'Niedziela' },
   ];
 
   // Etykiety godzin

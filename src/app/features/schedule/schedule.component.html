@@ -1,34 +1,37 @@
-<div class="schedule" [style.--slot-px.px]="slotPx">
-    <!-- Nagłówek: pusty róg + 7 dni -->
-    <div class="header">
-        <div class="corner"></div>
-        @for (d of days; track d.index) {
-        <div class="day-head">{{ d.label }}</div>
-        }
-    </div>
+<h2 class="section-title">Grafik treningów</h2>
 
-    <!-- Ciało: kolumna godzin + 7 kolumn dni -->
-    <div class="body">
-        <!-- Kolumna godzin -->
-        <div class="times" [style.height.px]="dayHeightPx">
-            @for (h of hours; track h) {
-            <div class="hour">{{ h }}:00</div>
+<!-- wrapper centruje i ogranicza szerokość -->
+<div class="schedule-wrap">
+    <!-- tło zdjęcia jest podpięte bezpośrednio do .schedule -->
+    <div class="schedule theme-dark" [style.--slot-px.px]="slotPx" [style.--schedule-bg]="'url(/assets/images/boxing_bag.png)'">
+
+        <!-- Nagłówek -->
+        <div class="header">
+            <div class="corner"></div>
+            @for (d of days; track d.index) {
+            <div class="day-head">{{ d.label }}</div>
             }
         </div>
 
-        <!-- Kolumny dni -->
-        <div class="days">
-            @for (d of days; track d.index) {
-            <div class="day-column" [style.height.px]="dayHeightPx">
-                @for (ev of eventsByDay[d.index]; track ev.id) {
-                <div class="event" [style.top.%]="timeToOffsetPct(ev.start)" [style.height.%]="durationPct(ev.start, ev.end)"
-                    [style.--ev]="ev.color || '#ff3b6a'">
-                    <div class="title">{{ ev.title }}</div>
-                    <div class="time">{{ ev.start }}–{{ ev.end }}</div>
+        <!-- Ciało: godziny + dni -->
+        <div class="body">
+            <div class="times" [style.height.px]="dayHeightPx">
+                @for (h of hours; track h) { <div class="hour">{{ h }}:00</div> }
+            </div>
+
+            <div class="days">
+                @for (d of days; track d.index) {
+                <div class="day-column" [style.height.px]="dayHeightPx">
+                    @for (ev of eventsByDay[d.index]; track ev.id) {
+                    <div class="event" [style.top.%]="timeToOffsetPct(ev.start)"
+                        [style.height.%]="durationPct(ev.start, ev.end)" [style.--ev]="ev.color || '#ff3b6a'">
+                        <div class="title">{{ ev.title }}</div>
+                        <div class="time">{{ ev.start }}–{{ ev.end }}</div>
+                    </div>
+                    }
                 </div>
                 }
             </div>
-            }
         </div>
     </div>
 </div>
