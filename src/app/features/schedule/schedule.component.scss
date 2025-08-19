@@ -5,7 +5,6 @@
 /* ---------- wrapper: centrum + szerokość ---------- */
 .schedule-wrap {
     max-width: 1200px;
-    /* zmień np. na 1024/960 jeśli chcesz wężej */
     width: min(100%, 1200px);
     margin: 0 auto;
 }
@@ -27,25 +26,27 @@
     color: var(--text, #e5e7eb);
     font-size: clamp(24px, 2.2vw, 34px);
     font-weight: 800;
-    margin: 12px 0 8px;
+    margin: 12px 0 30px;
 }
 
 /* ---------- układ grafiku ---------- */
-$s-side-col: 96px;
-/* lewa kolumna z godzinami */
-
+/* UŻYWAJ zmiennej CSS zamiast $s-side-col */
 .schedule {
+    /* kolumna godzin + podstawowe gęstości */
+    --side-col: 96px;
+    --slot-px: var(--slot-px, 24px);
+    /* pozwala nadpisać z TS lub media queries */
+    
     color: var(--text);
     position: relative;
     display: grid;
-    grid-template-columns: $s-side-col 1fr;
+    grid-template-columns: var(--side-col) 1fr;
     grid-template-rows: 48px 1fr;
-
     overflow: hidden;
 
     background:
-            linear-gradient(to bottom, rgba(0, 0, 0, .0), rgba(0, 0, 0, .0)),
-            var(--schedule-bg);
+        linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
+        var(--schedule-bg);
     background-position: center, center;
     background-repeat: no-repeat, no-repeat;
     background-size: 100% 100%, contain;
@@ -55,10 +56,9 @@ $s-side-col: 96px;
 .header {
     grid-column: 1 / span 2;
     display: grid;
-    grid-template-columns: $s-side-col repeat(7, 1fr);
+    grid-template-columns: var(--side-col) repeat(7, 1fr);
     align-items: center;
-    
-
+    padding-bottom: 10px;
     .corner {
         height: 100%;
     }
@@ -81,7 +81,6 @@ $s-side-col: 96px;
             bottom: 6px;
             width: 40px;
             height: 3px;
-
             background: var(--accent);
             opacity: .75;
         }
@@ -92,7 +91,7 @@ $s-side-col: 96px;
 .body {
     grid-column: 1 / span 2;
     display: grid;
-    grid-template-columns: $s-side-col 1fr;
+    grid-template-columns: var(--side-col) 1fr;
 }
 
 /* Godziny + siatka */
@@ -111,8 +110,8 @@ $s-side-col: 96px;
     }
 
     .hour {
-        height: calc(var(--slot-px, 24px) * 4);
-        padding: 0px 0px 0px 30px;
+        height: calc(var(--slot-px) * 4);
+        padding: 0 0 0 30px;
         font-size: 12px;
     }
 }
@@ -121,8 +120,6 @@ $s-side-col: 96px;
 .days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-
-    
 }
 
 /* Karta dnia: ciemny panel + siatka w tle */
@@ -131,69 +128,50 @@ $s-side-col: 96px;
     box-shadow: 0 1px 0 rgba(255, 255, 255, .04) inset;
     overflow: hidden;
 
-    /* ZOSTAWIAMY tylko grubsze linie (co 4 sloty) jako pełne */
     background-image:
         repeating-linear-gradient(to bottom,
             transparent,
-            transparent calc(var(--slot-px, 24px) * 4 - 1px),
-            var(--grid-60) calc(var(--slot-px, 24px) * 4 - 1px),
-            var(--grid-60) calc(var(--slot-px, 24px) * 4));
+            transparent calc(var(--slot-px) * 4 - 1px),
+            var(--grid-60) calc(var(--slot-px) * 4 - 1px),
+            var(--grid-60) calc(var(--slot-px) * 4));
     background-blend-mode: lighten;
 }
 
-/* Cienkie linie – osobna warstwa, docięta maską do przerywanych */
+/* Cienkie linie – przerywane */
 .day-column::before {
     content: "";
     position: absolute;
     inset: 0;
     pointer-events: none;
 
-    /* cienkie linie co slot – 1px wysokości */
-    background-image: repeating-linear-gradient(to bottom,
-            var(--grid-15), var(--grid-15) 1px,
-            transparent 1px, transparent var(--slot-px, 24px));
+    background-image: repeating-linear-gradient(to bottom, var(--grid-15), var(--grid-15) 1px,
+            transparent 1px, transparent var(--slot-px));
     background-blend-mode: lighten;
 
-    /* parametry kreski przerywanej */
     --dash: 12px;
-    /* długość kreski */
     --gap: 8px;
-    /* przerwa między kreskami */
-
-    /* maska tnąca w poziomie na „kreska–przerwa” */
-    -webkit-mask-image: repeating-linear-gradient(to right,
-            #000 0 var(--dash),
+    -webkit-mask-image: repeating-linear-gradient(to right, #000 0 var(--dash),
             transparent var(--dash) calc(var(--dash) + var(--gap)));
-    mask-image: repeating-linear-gradient(to right,
-            #000 0 var(--dash),
+    mask-image: repeating-linear-gradient(to right, #000 0 var(--dash),
             transparent var(--dash) calc(var(--dash) + var(--gap)));
 }
-/* Event */
+
 /* EVENT – minimal */
 .event {
     position: absolute;
     inset-inline: 6px;
     box-sizing: border-box;
-
-    /* kompaktowo, czytelnie */
     padding: 6px 10px;
     min-height: 26px;
     border-radius: 8px;
-
-    /* subtelny panel + cienka ramka */
-    background: rgba(0, 0, 0, 0.315);
+    background: rgba(0, 0, 0, .8);
     border: 1px solid var(--panel-border);
-
-    /* wąski akcent po lewej (prosto i czytelnie) */
     border-left: 2px solid #ff3b6a;
-
-    /* brak cieni = czysto */
     box-shadow: none;
     color: var(--text);
     z-index: 1;
 }
 
-/* typografia – bez krzyku */
 .event .title {
     font-size: 12.5px;
     font-weight: 700;
@@ -210,7 +188,6 @@ $s-side-col: 96px;
     white-space: nowrap;
 }
 
-/* delikatne stany – nadal minimalistycznie */
 .event:hover {
     background: rgba(255, 255, 255, .04);
     border-color: rgba(255, 255, 255, .14);
@@ -225,16 +202,20 @@ $s-side-col: 96px;
     border-color: var(--ev, var(--accent));
 }
 
-/* zagęszczenie, gdy slot niski */
 .event--dense {
     padding: 4px 8px;
     border-radius: 6px;
 }
 
-/* ---------- responsywność ---------- */
+/* ---------- tablet ---------- */
 @media (max-width: 1024px) {
     .schedule-wrap {
         padding: 16px;
+    }
+
+    .schedule {
+        --side-col: 80px;
+        --slot-px: 20px !important;
     }
 
     .days {
@@ -243,10 +224,316 @@ $s-side-col: 96px;
     }
 }
 
+/* ---------- telefon ---------- */
 @media (max-width: 768px) {
-    $s-side-col: 80px;
 
-    .day-head::after {
+    /* WYPIER… tło worka i kompresja pionu */
+    .schedule {
+        --side-col: 0px;
+        --slot-px: 16px !important;
+        --schedule-bg: none !important;
+        /* zbija inline url(...) */
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        background-image: none;
+    }
+
+    .header {
+        grid-template-columns: repeat(7, minmax(180px, 1fr));
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+
+        .corner {
+            display: none;
+        }
+
+        .day-head {
+            scroll-snap-align: start;
+            font-size: clamp(14px, 3.5vw, 18px);
+            padding: 10px 0;
+
+            &::after {
+                display: none;
+            }
+        }
+    }
+
+    .body {
+        grid-template-columns: 1fr;
+    }
+
+    .times {
         display: none;
+    }
+
+    /* oszczędzamy szerokość */
+
+    .days {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(220px, 80vw);
+        /* szerokość kafla dnia */
+        overflow-x: auto;
+        gap: 12px;
+        padding: 8px 12px 16px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .day-column {
+        height: calc(var(--slot-px) * 24);
+        /* pełna doba, ale zbita slotami */
+        min-width: 220px;
+        border-radius: 12px;
+        scroll-snap-align: start;
+    }
+
+    .event {
+        inset-inline: 8px;
+        border-radius: 10px;
+        padding: 8px 10px;
+    }
+
+    .event .title {
+        font-size: 13px;
+    }
+
+    .event .time {
+        font-size: 11px;
+    }
+}
+
+/* ---------- bardzo małe telefony ---------- */
+@media (max-width: 480px) {
+    .schedule {
+        --slot-px: 14px !important;
+    }
+
+    .days {
+        grid-auto-columns: 88vw;
+    }
+}
+
+
+/* Domyślnie desktop on, mobile off */
+.schedule-mobile {
+    display: none;
+}
+/* Domyślnie: desktop on, mobile off */
+.schedule-mobile {
+    display: none;
+}
+
+/* -------------------- MOBILE ≤ 768px -------------------- */
+@media (max-width: 768px) {
+    .schedule {
+        display: none !important;
+    }
+
+    .schedule-mobile {
+        display: block;
+        padding: 8px 12px 16px;
+        background: none !important;
+    }
+
+    /* Toolbar po prawej, sticky */
+    .m-toolbar {
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        display: flex;
+        justify-content: flex-end;
+        padding: 8px 0 6px;
+    }
+
+    .m-toggle-all {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, .06);
+        border: 1px solid rgba(255, 255, 255, .14);
+        color: var(--text);
+        font-weight: 700;
+        font-size: 13px;
+    }
+
+    .m-toggle-all:hover {
+        background: rgba(255, 255, 255, .1);
+    }
+
+    .m-toggle-all[aria-pressed="true"] .m-toggle-icon {
+        transform: rotate(180deg);
+    }
+
+    .m-toggle-icon {
+        transition: transform .25s ease;
+    }
+
+    /* Dzień */
+    .m-day {
+        background: var(--panel, #17181b);
+        border: 1px solid var(--panel-border, #2b2f36);
+        border-radius: 12px;
+        margin: 10px 0;
+        overflow: hidden;
+        transition: border-color .2s ease, box-shadow .2s ease;
+    }
+
+    .m-day.is-open {
+        box-shadow: 0 0 0 1px rgba(255, 255, 255, .06) inset;
+    }
+
+    /* Głowa (przycisk) */
+    .m-day-head {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 14px;
+        cursor: pointer;
+        color: var(--text);
+        font-weight: 800;
+        font-size: 16px;
+        background: transparent;
+        border: 0;
+        text-align: left;
+    }
+
+    .m-day-right {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .m-day-count {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 28px;
+        height: 24px;
+        padding: 0 8px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, .08);
+        border: 1px solid rgba(255, 255, 255, .14);
+        font-size: 12px;
+        color: var(--text);
+    }
+
+    .m-arrow {
+        transition: transform .25s ease;
+        opacity: .8;
+    }
+
+    .m-day.is-open .m-arrow {
+        transform: rotate(180deg);
+    }
+
+    /* Animacja panelu — podwójne zabezpieczenie (grid + max-height) */
+    .m-collapse {
+        display: grid;
+        grid-template-rows: 0fr;
+        transition: grid-template-rows .28s ease;
+    }
+
+    .m-inner {
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height .28s ease;
+    }
+
+    .m-fade {
+        opacity: 0;
+        transform: translateY(-4px);
+        transition: opacity .28s ease, transform .28s ease;
+    }
+
+    .m-day.is-open .m-collapse {
+        grid-template-rows: 1fr;
+    }
+
+    .m-day.is-open .m-inner {
+        max-height: 1000px;
+    }
+
+    /* wystarczy, bez JS-measure */
+    .m-day.is-open .m-fade {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Tabela */
+    .m-ev-table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        background: transparent;
+    }
+
+    .m-ev-table thead th {
+        text-align: left;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--muted, #9ca3af);
+        padding: 8px 14px 6px;
+        border-bottom: 1px solid var(--panel-border, #2b2f36);
+    }
+
+    .m-ev-row {
+        border-left: 3px solid var(--ev, var(--accent, #ff3b6a));
+    }
+
+    .m-ev-table td {
+        padding: 10px 14px;
+        vertical-align: top;
+        border-bottom: 1px solid var(--panel-border, #2b2f36);
+        color: var(--text, #e5e7eb);
+        font-size: 14px;
+    }
+
+    .m-time {
+        width: 34%;
+        white-space: nowrap;
+        color: var(--muted, #9ca3af);
+        font-variant-numeric: tabular-nums;
+    }
+
+    .m-title {
+        width: 66%;
+    }
+
+    .m-title-text {
+        font-weight: 700;
+        line-height: 1.25;
+    }
+
+    /* XS */
+    @media (max-width: 480px) {
+        .m-ev-table thead {
+            display: none;
+        }
+
+        .m-ev-table tr {
+            display: block;
+        }
+
+        .m-ev-table td {
+            display: block;
+            border: none;
+            padding: 8px 14px 0;
+        }
+
+        .m-ev-table td.m-title {
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--panel-border, #2b2f36);
+        }
+
+        .m-time {
+            font-size: 13px;
+            margin-top: 6px;
+        }
     }
 }
