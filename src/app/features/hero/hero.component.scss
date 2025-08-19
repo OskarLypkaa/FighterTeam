@@ -7,9 +7,12 @@
     text-align: center;
     position: relative;
     color: #fff;
+
+    /* miejsce na panel "O klubie" przy dole */
+    padding-bottom: clamp(120px, 14vw, 180px);
 }
 
-/* obraz z radialnym wygaszeniem do 0 na krawędziach */
+/* tło w hero */
 .hero>img {
     position: absolute;
     inset: 0;
@@ -19,24 +22,12 @@
     display: block;
     z-index: 0;
     pointer-events: none;
-
-
-
-    -webkit-mask-image: linear-gradient(to bottom,
-                rgba(0, 0, 0, 0.6) 0%,
-                rgba(0, 0, 0, 0) 100%);
-                
-
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 100%);
 }
-
 
 .hero .hero-content {
     position: relative;
     z-index: 1;
-}
-.hero .hero-content {
-    position: relative;
-    z-index: 1; 
     max-width: 800px;
     margin-inline: auto;
 }
@@ -72,4 +63,107 @@
 .hero .hero-content .btn:focus-visible {
     outline: none;
     box-shadow: 0 0 0 3px var(--focus);
+}
+
+/* --- PANEL: O KLUBIE --- */
+.hero-about {
+    position: absolute;
+    left: 50%;
+    bottom: clamp(16px, 3vw, 28px);
+    transform: translateX(-50%);
+    width: min(1040px, 92vw);
+
+    display: grid;
+    gap: 14px;
+    z-index: 1;
+    padding: clamp(14px, 2.5vw, 22px);
+    text-align: left;
+}
+
+/* układ wewnątrz panelu */
+.about-head {
+    display: grid;
+    gap: 6px;
+}
+
+.about-title {
+    margin: 0;
+    font-size: clamp(18px, 2.6vw, 22px);
+    font-weight: 800;
+    letter-spacing: .2px;
+}
+
+.about-lead {
+    margin: 0;
+    color: #e6e6e6;
+}
+
+/* lista bulletów */
+.about-bullets {
+    display: grid;
+    gap: 8px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.about-bullets li {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    align-items: center;
+    gap: 8px;
+    color: #ddd;
+}
+
+.about-bullets .material-icons {
+    font-size: 22px;
+    line-height: 1;
+    opacity: .95;
+}
+
+/* statystyki */
+.about-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.stat {
+    display: grid;
+    gap: 2px;
+    text-align: center;
+    background: rgba(255, 255, 255, .06);
+    border: 1px solid rgba(255, 255, 255, .07);
+    border-radius: 12px;
+    padding: 10px 8px;
+}
+
+.stat strong {
+    font-size: clamp(18px, 3.2vw, 24px);
+    line-height: 1.1;
+}
+
+.stat span {
+    font-size: 12px;
+    color: #cfcfcf;
+}
+
+/* większe ekrany — 2 kolumny w panelu (treść/bullets | statystyki) */
+@media (min-width: 840px) {
+    .hero-about {
+        grid-template-columns: 1.6fr .8fr;
+        align-items: start;
+    }
+
+    .about-head,
+    .about-bullets {
+        margin-right: 8px;
+    }
+}
+
+/* bardzo wąskie ekrany — staty pod spodem, 1 kolumna */
+@media (max-width: 480px) {
+    .about-stats {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
 }

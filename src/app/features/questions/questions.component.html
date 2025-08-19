@@ -1,0 +1,27 @@
+<section class="section flow alt-bg" id="questions">
+    <div class="container fade-in">
+        <h2 class="section-title section-title--right">Często zadawane pytania</h2>
+
+
+        <div class="benefits-layout">
+            <!-- PRAWA: zdjęcie -->
+            <div class="benefits-photo">
+                <img src="assets/images/boxing_bag.png" alt="Trener">
+            </div>
+
+            <!-- LEWA: pytania w 2 kolumnach -->
+            <div class="benefits-list">
+                @for (question of questions; track question.title) {
+                <div class="info-tile">
+                    <div class="tile-icon">
+                        <span class="material-icons">{{ question.icon }}</span>
+                    </div>
+                    <h3 class="tile-title">{{ question.title }}</h3>
+                    <p class="tile-desc">{{ question.desc }}</p>
+                </div>
+                }
+            </div>
+
+        </div>
+    </div>
+</section>

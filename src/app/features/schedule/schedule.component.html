@@ -1,92 +1,99 @@
-<h2 class="section-title">Grafik treningów</h2>
+<section id="schedule" class="section flow">
+    <h2 class="section-title fade-in">Grafik treningów</h2>
 
-<!-- wrapper centruje i ogranicza szerokość -->
-<div class="schedule-wrap">
-    <!-- tło zdjęcia jest podpięte bezpośrednio do .schedule -->
-    <div class="schedule theme-dark" [style.--slot-px.px]="slotPx" [style.--schedule-bg]="'url(/assets/images/boxing_bag.png)'">
-
-        <!-- Nagłówek -->
-        <div class="header">
-            <div class="corner"></div>
-            @for (d of days; track d.index) {
-            <div class="day-head">{{ d.label }}</div>
-            }
-        </div>
-
-        <!-- Ciało: godziny + dni -->
-        <div class="body">
-            <div class="times" [style.height.px]="dayHeightPx">
-                @for (h of hours; track h) { <div class="hour">{{ h }}:00</div> }
-            </div>
-
-            <div class="days">
-                @for (d of days; track d.index) {
-                <div class="day-column" [style.height.px]="dayHeightPx">
-                    @for (ev of eventsByDay[d.index]; track ev.id) {
-                    <div class="event" [style.top.%]="timeToOffsetPct(ev.start)"
-                        [style.height.%]="durationPct(ev.start, ev.end)" [style.--ev]="ev.color || '#ff3b6a'">
-                        <div class="title">{{ ev.title }}</div>
-                        <div class="time">{{ ev.start }}–{{ ev.end }}</div>
-                    </div>
+    <!-- całość zawijamy, żeby jedno 'fade-in' objęło desktop i mobile -->
+    <div class="fade-in">
+        <!-- wrapper centruje i ogranicza szerokość -->
+        <div class="schedule-wrap">
+            <div class="schedule theme-dark" [style.--slot-px.px]="slotPx">
+                <!-- Nagłówek -->
+                <div class="header">
+                    <div class="corner"></div>
+                    @for (d of days; track d.index) {
+                    <div class="day-head">{{ d.label }}</div>
                     }
                 </div>
-                }
+
+                <!-- Ciało: godziny + dni -->
+                <div class="body">
+                    <div class="times" [style.height.px]="dayHeightPx">
+                        @for (h of hours; track h) { <div class="hour">{{ h }}:00</div> }
+                    </div>
+
+                    <div class="days">
+                        @for (d of days; track d.index) {
+                        <div class="day-column" [style.height.px]="dayHeightPx">
+                            @for (ev of eventsByDay[d.index]; track ev.id) {
+                            <div class="event" [style.top.%]="timeToOffsetPct(ev.start)"
+                                [style.height.%]="durationPct(ev.start, ev.end)" [style.--ev]="ev.color || '#ff3b6a'">
+                                <div class="title">{{ ev.title }}</div>
+                                <div class="time">{{ ev.start }}–{{ ev.end }}</div>
+                            </div>
+                            }
+                        </div>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div><!-- MOBILE -->
-<div class="schedule-mobile theme-dark">
-    <div class="m-toolbar">
-        <button type="button" class="m-toggle-all" (click)="toggleAllMobile()" [attr.aria-pressed]="mobileAllOpen"
-            [title]="mobileAllOpen ? 'Zwiń wszystkie' : 'Rozwiń wszystkie'">
-            <span class="m-toggle-text">{{ mobileAllOpen ? 'Zwiń' : 'Rozwiń' }}</span>
-            <svg class="m-toggle-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                <path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-            </svg>
-        </button>
-    </div>
 
-    @for (d of days; track d.index) {
-    <section class="m-day" [class.is-open]="openDays[d.index]">
-        <button type="button" class="m-day-head" (click)="toggleDay(d.index)" [attr.aria-expanded]="openDays[d.index]"
-            [attr.aria-controls]="'panel-'+d.index">
-            <span class="m-day-label">{{ d.label }}</span>
-            <span class="m-day-right">
-                <span class="m-day-count">{{ eventsByDay[d.index].length || 0 }}</span>
-                <svg class="m-arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-                    <path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                </svg>
-            </span>
-        </button>
-
-        <div class="m-collapse" [attr.id]="'panel-'+d.index">
-            <div class="m-inner m-fade">
-                <table class="m-ev-table">
-                    <thead>
-                        <tr>
-                            <th>Godzina</th>
-                            <th>Zajęcia</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (eventsByDay[d.index].length) {
-                        @for (ev of eventsByDay[d.index]; track ev.id) {
-                        <tr class="m-ev-row" [style.--ev]="ev.color || '#ff3b6a'">
-                            <td class="m-time">{{ ev.start }}–{{ ev.end }}</td>
-                            <td class="m-title">
-                                <div class="m-title-text">{{ ev.title }}</div>
-                            </td>
-                        </tr>
-                        }
-                        } @else {
-                        <tr>
-                            <td class="m-empty" colspan="2">Brak zajęć</td>
-                        </tr>
-                        }
-                    </tbody>
-                </table>
+        <!-- MOBILE -->
+        <div class="schedule-mobile theme-dark fade-in">
+            <div class="m-toolbar">
+                <button type="button" class="m-toggle-all" (click)="toggleAllMobile()"
+                    [attr.aria-pressed]="mobileAllOpen" [title]="mobileAllOpen ? 'Zwiń wszystkie' : 'Rozwiń wszystkie'">
+                    <span class="m-toggle-text">{{ mobileAllOpen ? 'Zwiń' : 'Rozwiń' }}</span>
+                    <svg class="m-toggle-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                        <path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" />
+                    </svg>
+                </button>
             </div>
+
+            @for (d of days; track d.index) {
+            <section class="m-day" [class.is-open]="openDays[d.index]">
+                <button type="button" class="m-day-head" (click)="toggleDay(d.index)"
+                    [attr.aria-expanded]="openDays[d.index]" [attr.aria-controls]="'panel-'+d.index">
+                    <span class="m-day-label">{{ d.label }}</span>
+                    <span class="m-day-right">
+                        <span class="m-day-count">{{ eventsByDay[d.index].length || 0 }}</span>
+                        <svg class="m-arrow" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                            <path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"
+                                stroke-linecap="round" />
+                        </svg>
+                    </span>
+                </button>
+
+                <div class="m-collapse" [attr.id]="'panel-'+d.index">
+                    <div class="m-inner m-fade">
+                        <table class="m-ev-table">
+                            <thead>
+                                <tr>
+                                    <th>Godzina</th>
+                                    <th>Zajęcia</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (eventsByDay[d.index].length) {
+                                @for (ev of eventsByDay[d.index]; track ev.id) {
+                                <tr class="m-ev-row" [style.--ev]="ev.color || '#ff3b6a'">
+                                    <td class="m-time">{{ ev.start }}–{{ ev.end }}</td>
+                                    <td class="m-title">
+                                        <div class="m-title-text">{{ ev.title }}</div>
+                                    </td>
+                                </tr>
+                                }
+                                } @else {
+                                <tr>
+                                    <td class="m-empty" colspan="2">Brak zajęć</td>
+                                </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            }
         </div>
-    </section>
-    }
-</div>
+    </div>
+</section>

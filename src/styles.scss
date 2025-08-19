@@ -49,12 +49,13 @@ app-pricing,
 app-news,
 app-coach,
 app-benefits,
+app-questions,
 app-contact,
 app-footer {
     display: block;
 }
 
-app-root> :is(app-classes, app-schedule, app-pricing, app-news, app-coach, app-benefits, app-contact) {
+app-root> :is(app-classes, app-schedule, app-pricing, app-news, app-coach, app-benefits, app-questions, app-contact) {
     position: relative;
     padding: clamp(56px, 8vw, 96px) 16px;
     --section-bg: var(--bg);
@@ -62,12 +63,12 @@ app-root> :is(app-classes, app-schedule, app-pricing, app-news, app-coach, app-b
     background: var(--section-bg);
 }
 
-app-root> :nth-child(even of :is(app-classes, app-schedule, app-pricing, app-news, app-coach, app-benefits, app-contact)) {
+app-root> :nth-child(even of :is(app-classes, app-schedule, app-pricing, app-news, app-coach, app-benefits, app-questions, app-contact)) {
     --section-bg: var(--alt-bg);
     --prev-bg: var(--bg);
 }
 
-app-root> :nth-child(n+2 of :is(app-classes, app-schedule, app-pricing, app-news, app-coach, app-benefits, app-contact))::before {
+app-root> :nth-child(n+2 of :is(app-classes, app-schedule, app-pricing, app-news, app-coach, app-benefits, app-questions, app-contact))::before {
     content: "";
     position: absolute;
     left: 0;
@@ -114,7 +115,7 @@ app-root> :nth-child(n+2 of :is(app-classes, app-schedule, app-pricing, app-news
 }
 
 .info-tile {
-    padding: 24px;
+    padding: 15px;
     border-radius: 14px;
     backdrop-filter: blur(6px);
     transition: transform .2s, box-shadow .2s, background .2s;

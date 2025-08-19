@@ -1,0 +1,87 @@
+.benefits-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(400px, 520px);
+    gap: clamp(16px, 3vw, 32px);
+    align-items: start;
+    container-type: inline-size;
+    /* potrzebne do @container */
+}
+
+.benefits-list {
+    display: grid;
+    /* poprawka: wcześniej clamp miał max < min i realnie dawał 12px */
+    gap: clamp(8px, 2vw, 16px);
+    /* kluczowa zmiana: responsywna liczba kolumn, minimalna szerokość kafelka 280px */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/* (opcjonalnie) upewnij się, że kafelek wypełnia kolumnę */
+.benefits-list .info-tile {
+    width: 100%;
+}
+
+.benefits-photo {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.benefits-photo img {
+    max-height: 500px;
+    max-width: 400px;
+    object-fit: cover;
+}
+
+.section-title.section-title--right {
+    text-align: right;
+    padding-right: 100px;
+}
+
+/* ---------- ADAPTACJA WG RZECZYWISTEJ SZEROKOŚCI KONTENERA ---------- */
+/* Gdy kontener jest zbyt wąski na sensowne 2 kolumny + foto */
+@container (max-width: 950px) {
+    .benefits-layout {
+        grid-template-columns: 1fr;
+    }
+
+    /* bez prawej kolumny */
+    .benefits-photo {
+        display: none;
+    }
+
+    .section-title.section-title--left {
+        text-align: center;
+    }
+}
+
+/* Gdy już naprawdę ciasno – kafelki w 1 kolumnie */
+@container (max-width: 620px) {
+    .benefits-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---------- Fallback (na wypadek braku wsparcia dla container queries) ---------- */
+@media (max-width: 900px) {
+    .benefits-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .benefits-photo {
+        display: none;
+    }
+
+    .section-title.section-title--left {
+        text-align: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .benefits-list {
+        grid-template-columns: 1fr;
+    }
+
+    .section-title.section-title--left {
+        text-align: center;
+    }
+}
