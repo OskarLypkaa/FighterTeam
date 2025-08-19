@@ -1,14 +1,81 @@
-<section class="section flow" id="news">
-    <div class="container fade-in">
-        <h2 class="section-title">Aktualności</h2>
-        <div class="news-list">
+<section class="news-section" id="news">
+    <div class="container">
+        <div class="header">
+            <h2>Aktualności</h2>
+        </div>
+
+        <div *ngIf="!loading && !error; else stateTpl" class="accordion">
             @for (n of news; track n.id) {
-            <article class="news-item">
-                <div class="news-date">{{ n.publishedAt }}</div>
-                <h3 class="news-title">{{ n.title }}</h3>
-                <p class="news-content">{{ n.content }}</p>
+            <article class="acc-item" [class.expanded]="isExpanded(n.id)">
+                <button class="acc-header" type="button" (click)="toggle(n.id)" [attr.aria-expanded]="isExpanded(n.id)"
+                    [attr.aria-controls]="'panel-' + n.id" [id]="'control-' + n.id">
+                    <div class="thumb">
+                        <img [src]="thumbOf(n)" [alt]="n.title" loading="eager" (error)="imgError($event, n.id)" />
+                    </div>
+                    <div class="header-text">
+                        <h3 class="title">{{ n.title }}</h3>
+                        <time class="date" [attr.datetime]="n.publishedAt.toISOString()">
+                            {{ n.publishedAt | date:'d MMM yyyy, HH:mm' }}
+                        </time>
+                    </div>
+                    <span class="chev" aria-hidden="true"></span>
+                </button>
+
+                <div class="acc-panel" [id]="'panel-' + n.id" role="region" [attr.aria-labelledby]="'control-' + n.id"
+                    [style.maxHeight]="isExpanded(n.id) ? '2000px' : '0px'">
+                    <div class="panel-inner">
+                        <p class="desc">{{ n.description }}</p>
+                        <!-- MOBILE: h-scroll (ukryty pasek) -->
+                        <div class="gallery-mobile">
+                            @for (img of n.images; let i = $index; track i) {
+                            <figure class="g-item">
+                                <img [src]="img" [alt]="n.title + ' — zdjęcie ' + (i+1)" loading="lazy"
+                                    (click)="openLightbox(n, i)" (error)="imgError($event, n.id)" />
+                            </figure>
+                            }
+                        </div>
+
+                        <!-- DESKTOP: siatka miniaturek -->
+                        <div class="gallery-grid">
+                            @for (img of n.images; let i = $index; track i) {
+                            <figure class="g-item">
+                                <img [src]="img" [alt]="n.title + ' — zdjęcie ' + (i+1)" loading="lazy"
+                                    (click)="openLightbox(n, i)" (error)="imgError($event, n.id)" />
+                            </figure>
+                            }
+                        </div>
+
+                        
+                    </div>
+                </div>
             </article>
             }
         </div>
+
+        <ng-template #stateTpl>
+            <div class="state" *ngIf="loading">Ładowanie…</div>
+            <div class="state error" *ngIf="!loading && error">Nie udało się pobrać aktualności.</div>
+        </ng-template>
+    </div>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" *ngIf="lightboxOpen" role="dialog" aria-modal="true" [attr.aria-label]="lbTitle"
+        (click)="closeLightbox()">
+        <button class="lb-close" type="button" aria-label="Zamknij"
+            (click)="closeLightbox(); $event.stopPropagation()">×</button>
+
+        <button class="lb-nav prev" type="button" aria-label="Poprzednie zdjęcie"
+            (click)="prev(); $event.stopPropagation()" [disabled]="lbImages.length <= 1">‹</button>
+
+        <figure class="lb-media" (click)="$event.stopPropagation()">
+            <img [src]="lbImages[lbIndex]" [alt]="lbTitle + ' — powiększone zdjęcie'"
+                (error)="imgError($event, 9999)" />
+            <figcaption class="lb-caption">
+                {{ lbTitle }} — {{ lbIndex + 1 }}/{{ lbImages.length }}
+            </figcaption>
+        </figure>
+
+        <button class="lb-nav next" type="button" aria-label="Następne zdjęcie"
+            (click)="next(); $event.stopPropagation()" [disabled]="lbImages.length <= 1">›</button>
     </div>
 </section>

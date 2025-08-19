@@ -1,20 +1,26 @@
 <section class="section flow" id="benefits">
     <div class="container fade-in">
-        <h2 class="section-title">Dlaczego warto trenować?</h2>
-        <div class="grid-3">
-            @for (b of benefits; track b.title) {
-            <div class="info-tile">
-                <div class="tile-icon">
-                    <span class="material-icons">{{ b.icon }}</span>
-                </div>
-                <h3 class="tile-title">{{ b.title }}</h3>
-                <p class="tile-desc">{{ b.desc }}</p>
-            </div>
-            }
-                    <div>
-                        <img src="assets/images/fight_02.png" alt="Trener">
-                    </div>
-        </div>
+        <h2 class="section-title section-title--left">Dlaczego warto trenować?</h2>
 
+
+        <div class="benefits-layout">
+            <!-- LEWA: benefity w 2 kolumnach -->
+            <div class="benefits-list">
+                @for (b of benefits; track b.title) {
+                <div class="info-tile">
+                    <div class="tile-icon">
+                        <span class="material-icons">{{ b.icon }}</span>
+                    </div>
+                    <h3 class="tile-title">{{ b.title }}</h3>
+                    <p class="tile-desc">{{ b.desc }}</p>
+                </div>
+                }
+            </div>
+
+            <!-- PRAWA: zdjęcie -->
+            <div class="benefits-photo">
+                <img src="assets/images/fight_02.png" alt="Trener">
+            </div>
+        </div>
     </div>
 </section>

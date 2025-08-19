@@ -1,0 +1,81 @@
+/* Layout sekcji benefitów: lewa (grid 2 kolumny), prawa (foto) */
+.benefits-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(280px, 520px);
+    gap: clamp(16px, 3vw, 32px);
+    align-items: start;
+
+    /* klucz do container queries */
+    container-type: inline-size;
+}
+
+/* Lewa kolumna: 2 kolumny kafelków */
+.benefits-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(12px, 2vw, 20px);
+}
+
+/* Prawa kolumna: zdjęcie */
+.benefits-photo {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.benefits-photo img {
+    width: 100%;
+    max-width: 520px;
+    object-fit: cover;
+
+}
+.section-title.section-title--right {
+    text-align: right;
+    padding-right: 200px;
+}
+/* ---------- ADAPTACJA WG RZECZYWISTEJ SZEROKOŚCI KONTENERA ---------- */
+/* Gdy kontener jest zbyt wąski na sensowne 2 kolumny + foto */
+@container (max-width: 950px) {
+    .benefits-layout {
+        grid-template-columns: 1fr;
+    }
+
+    /* bez prawej kolumny */
+    .benefits-photo {
+        display: none;
+    }
+
+    .section-title.section-title--left {
+        text-align: center;
+    }
+}
+
+/* Gdy już naprawdę ciasno – kafelki w 1 kolumnie */
+@container (max-width: 620px) {
+    .benefits-list {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---------- Fallback (na wypadek braku wsparcia dla container queries) ---------- */
+@media (max-width: 900px) {
+    .benefits-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .benefits-photo {
+        display: none;
+    }
+    .section-title.section-title--left {
+        text-align: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .benefits-list {
+        grid-template-columns: 1fr;
+    }
+    .section-title.section-title--left {
+        text-align: center;
+    }
+}

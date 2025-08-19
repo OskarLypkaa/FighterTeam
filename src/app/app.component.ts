@@ -13,6 +13,7 @@ import { BenefitsComponent } from "./features/benefits/benefits.component";
 import { ContactComponent } from "./features/contact/contact.component";
 import { CoachComponent } from "./features/coach/coach.component";
 import { NewsComponent } from "./features/news/news.component";
+import { QuestionsComponent } from './features/questions/questions.component';
 
 
 @Component({
@@ -28,7 +29,8 @@ import { NewsComponent } from "./features/news/news.component";
     BenefitsComponent,
     ContactComponent,
     CoachComponent,
-    NewsComponent
+    NewsComponent,
+    QuestionsComponent
 ],
   templateUrl: './app.component.html'
 })

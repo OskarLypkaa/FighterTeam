@@ -1,15 +1,96 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, HostListener, inject } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
+import { NewsService } from './news.service';
+import { NewsItem } from './news.model';
 
 @Component({
   selector: 'app-news',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, DatePipe],
   templateUrl: './news.component.html',
-  styleUrl: './news.component.scss'
+  styleUrls: ['./news.component.scss']
 })
-export class NewsComponent {
-  news = [
-    { id: 1, title: 'Nowa grupa początkująca od poniedziałku', content: 'Start o 18:00 – wbijasz, przedstawiasz się trenerowi i jedziesz.', publishedAt: new Date() },
-    { id: 2, title: 'Sobotni open gym', content: 'Luźna sala 10:00–12:00. Worki, tarcze, mobilizacja.', publishedAt: new Date(Date.now() - 86400000) }
-  ];
+export class NewsComponent implements OnInit {
+  protected news: NewsItem[] = [];
+  protected loading = true;
+  protected error = false;
 
+  private expanded = new Set<number>();
+
+  // Lightbox state
+  protected lightboxOpen = false;
+  protected lbImages: string[] = [];
+  protected lbIndex = 0;
+  protected lbTitle = '';
+
+  private readonly svc = inject(NewsService);
+
+  ngOnInit(): void {
+    this.svc.getLatest(3).subscribe({
+      next: data => { this.news = data; this.loading = false; },
+      error: () => { this.error = true; this.loading = false; }
+    });
+  }
+
+  // === Accordion ===
+  isExpanded(id: number): boolean { return this.expanded.has(id); }
+
+  toggle(id: number): void {
+    this.expanded.has(id) ? this.expanded.delete(id) : this.expanded.add(id);
+    this.expanded = new Set(this.expanded); // „szturchnięcie” change detection
+  }
+
+  // === Images / thumbs ===
+  thumbOf(n: NewsItem): string { return n.images?.[0] ?? this.fallbackImg(n.id); }
+
+  imgError(e: Event, id: number): void {
+    (e.target as HTMLImageElement).src = this.fallbackImg(id);
+  }
+
+  private fallbackImg(seed: number): string {
+    return `https://placehold.co/1200x800?text=Boxing+${seed}`;
+  }
+
+  // === Lightbox ===
+  openLightbox(item: NewsItem, index = 0): void {
+    this.lbImages = item.images ?? [];
+    if (!this.lbImages.length) return;
+    this.lbIndex = Math.max(0, Math.min(index, this.lbImages.length - 1));
+    this.lbTitle = item.title;
+    this.lightboxOpen = true;
+    // Zablokuj scroll pod spodem
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeLightbox(): void {
+    this.lightboxOpen = false;
+    this.lbImages = [];
+    this.lbIndex = 0;
+    this.lbTitle = '';
+    document.body.style.overflow = '';
+  }
+
+  prev(): void {
+    if (!this.lbImages.length) return;
+    this.lbIndex = (this.lbIndex - 1 + this.lbImages.length) % this.lbImages.length;
+  }
+
+  next(): void {
+    if (!this.lbImages.length) return;
+    this.lbIndex = (this.lbIndex + 1) % this.lbImages.length;
+  }
+
+  // Klawiatura w lightboxie
+  @HostListener('window:keydown', ['$event'])
+  handleKeydown(e: KeyboardEvent): void {
+    if (!this.lightboxOpen) return;
+    if (e.key === 'Escape') this.closeLightbox();
+    else if (e.key === 'ArrowLeft') this.prev();
+    else if (e.key === 'ArrowRight') this.next();
+  }
+
+  // === Nav to all (stub) ===
+  goToAll(): void {
+    console.log('[NewsComponent] goToAll() — TODO: router.navigate(["/aktualnosci"])');
+  }
 }
