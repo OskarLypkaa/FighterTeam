@@ -27,6 +27,8 @@ export class NewsComponent implements OnInit {
   protected lbIndex = 0;
   protected lbTitle = '';
 
+  // For description
+  protected maxChars = 180;
   private readonly svc = inject(NewsService);
 
   ngOnInit(): void {

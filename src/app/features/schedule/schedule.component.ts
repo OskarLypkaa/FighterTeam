@@ -30,7 +30,7 @@ export class ScheduleComponent implements OnInit {
   readonly startHour = 9;
   readonly endHour = 20;       // exclusive
   readonly slotMinutes = 15;   // co 15 min
-  readonly slotPx = 24;        // wysokość slota w px (musi pasować do SCSS)
+  readonly slotPx = 15;        // wysokość slota w px (musi pasować do SCSS)
 
   readonly totalMinutes = (this.endHour - this.startHour) * 60;
   readonly slotCount = this.totalMinutes / this.slotMinutes;

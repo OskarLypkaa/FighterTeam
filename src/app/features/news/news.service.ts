@@ -16,7 +16,7 @@ export class NewsService {
         });
 
         const mock: NewsItem[] = [
-            mk(701, 1, 'Nowa grupa początkująca od poniedziałku', 'Start o 18:00 – wpadasz, przedstawiasz się trenerowi i jedziesz.', 6),
+            mk(701, 1, 'Nowa grupa początkująca od poniedziałku', 'Start o 18:00 – wpadasz, prdcasdscaasazedstawiaszprdcasdscaasazedstawiaszprdcasdscaasazedstawiaszprdcasdscaasazedstawiaszprdcasdscaasazedstawiaszprdcasdscaasazedstawiaszprdcasdscaasazedstawiasz się trenerowi i jedziesz.', 6),
             mk(702, 26, 'Sobotni open gym', 'Luźna sala 10:00–12:00. Worki, tarcze, mobilizacja.', 4),
             mk(703, 72, 'Sparingi dla zaawansowanych', 'Środa 19:30. Kaski obowiązkowe. Tempo kontrolowane.', 5),
             mk(704, 120, 'Nowe rękawice w sklepie klubowym', 'Dostawa 12oz i 14oz. Cztery kolory, limitowana seria.', 3),
