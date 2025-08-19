@@ -1,94 +1,170 @@
-/* ====== SCHEDULE TABLE ====== */
-.table-scroll {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
+:host {
+    display: block;
+    
 }
 
-.schedule-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-    border-radius: 14px;
-    overflow: hidden;
+/* Paleta (jak na screenie: ciemne tło, jasny tekst, akcent malinowy) */
+.theme-dark {
+    --accent: #ff3b6a;
+    --panel: #17181b;
+    --panel-2: #101114;
+    --panel-border: #2b2f36;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --grid-15: rgba(255, 255, 255, .06);
+    --grid-60: rgba(255, 255, 255, .18);
 }
 
-.schedule-table thead th {
-    text-align: center;
-    background: rgba(255, 255, 255, 0.06);
-    color: #fff;
-    font-weight: 800;
-    padding: 14px 16px;
-    font-size: 14px;
-}
+/* Lewa kolumna godzin */
+$s-side-col: 80px;
 
-.schedule-table tbody th,
-.schedule-table tbody td {
-    padding: 14px 16px;
-    vertical-align: middle;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.schedule-table tbody tr:hover td,
-.schedule-table tbody tr:hover th[scope="row"] {
-    background: rgba(255, 255, 255, 0.05);
-}
-
-.schedule-table tbody th[scope="row"] {
-    width: 180px;
-    font-weight: 800;
-    color: #fff;
-    background: rgba(255, 255, 255, 0.03);
-}
-
-.schedule-table .slot-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+.schedule {
+    color: var(--text);
     display: grid;
-    gap: 6px;
+    grid-template-columns: $s-side-col 1fr;
+    grid-template-rows: 48px 1fr;
 }
 
-.schedule-table .slot-time {
-    display: inline-block;
-    min-width: 104px;
-    padding: 4px 8px;
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.10);
-    font-weight: 700;
+/* Header (dni tygodnia) */
+.header {
+    grid-column: 1 / span 2;
+    display: grid;
+    grid-template-columns: $s-side-col repeat(7, 1fr);
+    align-items: center;
+    border-bottom: 1px solid var(--panel-border);
+
+    .corner {
+        height: 100%;
+    }
+
+    .day-head {
+        text-align: center;
+        font-weight: 700;
+        font-size: clamp(18px, 1.1rem + 0.25vw, 22px);
+        letter-spacing: .2px;
+        position: relative;
+        color: var(--text);
+
+        &::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 6px;
+            width: 28px;
+            height: 3px;
+            opacity: .7;
+        }
+    }
 }
 
-.schedule-table .slot-name {
-    margin-left: 8px;
+/* Body */
+.body {
+    grid-column: 1 / span 2;
+    display: grid;
+    grid-template-columns: $s-side-col 1fr;
 }
 
-.schedule-table .muted {
+/* Godziny + siatka (jasne linie na ciemnym) */
+.times {
+    position: relative;
+    border-right: 1px solid var(--panel-border);
     color: var(--muted);
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            /* cienkie linie co 15 min */
+            repeating-linear-gradient(to bottom,
+                var(--grid-15), var(--grid-15) 1px,
+                transparent 1px, transparent var(--slot-px, 24px)),
+            /* grubsza co 60 min */
+            repeating-linear-gradient(to bottom,
+                transparent, transparent calc(var(--slot-px, 24px) * 4 - 1px),
+                var(--grid-60) calc(var(--slot-px, 24px) * 4 - 1px),
+                var(--grid-60) calc(var(--slot-px, 24px) * 4));
+        pointer-events: none;
+    }
+
+    .hour {
+        height: calc(var(--slot-px, 24px) * 4);
+        padding: 6px 8px 0 12px;
+    }
 }
 
-@media (max-width: 700px) {
-    .schedule-table thead {
-        display: none;
+/* Kolumny dni */
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
+    padding: 8px 12px 12px;
+}
+
+/* Karta dnia (wyraźny panel na ciemnym tle) */
+.day-column {
+    position: relative;
+    border: 1px solid var(--panel-border);
+    border-radius: 12px;
+    background-color: var(--panel);
+    overflow: hidden;
+
+    /* siatka w tle – jasna na ciemnym */
+    background-image:
+        repeating-linear-gradient(to bottom,
+            var(--grid-15), var(--grid-15) 1px,
+            transparent 1px, transparent var(--slot-px, 24px)),
+        repeating-linear-gradient(to bottom,
+            transparent, transparent calc(var(--slot-px, 24px) * 4 - 1px),
+            var(--grid-60) calc(var(--slot-px, 24px) * 4 - 1px),
+            var(--grid-60) calc(var(--slot-px, 24px) * 4));
+    background-blend-mode: lighten;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, .04) inset;
+}
+
+/* Event – wysoki kontrast, pasek akcentu z lewej */
+.event {
+    position: absolute;
+    inset-inline: 6px;
+    box-sizing: border-box;
+    padding: 6px 8px 6px 12px;
+    border: 1px solid rgba(255, 255, 255, .12);
+    border-radius: 10px;
+    color: #f8fafc;
+    /* jasny tekst na ciemnym */
+
+    /* tło – fallback + nowoczesny color-mix */
+    background: rgba(255, 255, 255, .06);
+    background: color-mix(in srgb, var(--ev, var(--accent)) 22%, #0f1012 78%);
+
+    /* cienka poświata */
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, .5),
+        0 0 0 1px rgba(255, 255, 255, .04) inset;
+
+    /* pasek akcentu */
+    &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+        background: var(--ev, var(--accent));
+        opacity: .9;
     }
 
-    .schedule-table tbody,
-    .schedule-table tr,
-    .schedule-table td,
-    .schedule-table th {
-        display: block;
-        width: 100%;
+    .title {
+        font-size: 12.5px;
+        font-weight: 800;
+        line-height: 1.15;
     }
 
-    .schedule-table tbody th[scope="row"] {
-        border-top: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        border-left: 4px solid var(--accent);
-        border-radius: 8px 8px 0 0;
-        padding: 12px 16px;
-    }
-
-    .schedule-table tbody td {
-        padding: 12px 16px 16px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    .time {
+        font-size: 11.5px;
+        color: #cbd5e1;
     }
 }
