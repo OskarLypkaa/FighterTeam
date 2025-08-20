@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="pl">
-
 <head>
   <meta charset="utf-8">
   <title>KB BOX</title>
@@ -10,9 +9,20 @@
   <link rel="shortcut icon" href="/assets/favicon.ico">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
-
 <body>
   <app-root></app-root>
+  <!-- Opcjonalnie, proste „fade-in” na scroll bez Angular Animations -->
+  <script>
+    (function () {
+      const els = [];
+      const push = e => (e.classList && els.push(e));
+      document.querySelectorAll('.fade-in').forEach(push);
+      if (!('IntersectionObserver' in window)) { els.forEach(e => e.classList.add('visible')); return; }
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); io.unobserve(entry.target); } });
+      }, { threshold: 0.1 });
+      els.forEach(e => io.observe(e));
+    })();
+  </script>
 </body>
-
 </html>
