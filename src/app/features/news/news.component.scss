@@ -447,3 +447,61 @@
 .state.error {
   color: #ff8a8a;
 }
+
+
+/* ====== SOCIAL (center, bigger, icons-only) ====== */
+.social {
+  margin-top: 32px;
+  padding: 16px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, .08); // zostawiam separator sekcji
+  text-align: center;
+}
+
+.social-title {
+  margin: 0 0 12px 0;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.social-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  /* odstęp między ikonami */
+  flex-wrap: wrap;
+}
+
+/* tylko ikony – bez tła/obramowania */
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  /* powiększa klikalny obszar, niewidoczny */
+  background: none;
+  border: 0;
+  outline: none;
+  transform: translateZ(0);
+  /* lepsze animacje */
+}
+
+.social-link img {
+  width: 90px;
+  height: 90px;
+  display: block;
+}
+
+/* subtle hover/focus bez ramek */
+@media (hover:hover) {
+  .social-link:hover img {
+    transform: scale(1.06);
+    transition: transform .12s ease;
+  }
+}
+
+.social-link:focus-visible img {
+  transform: scale(1.06);
+}
+
